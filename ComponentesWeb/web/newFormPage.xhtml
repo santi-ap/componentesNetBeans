@@ -8,33 +8,64 @@
         <title>New Form</title> 
     </h:head>
     <body>
-        
-         <!--//////////////////////////////////////////Name/////////////////////////////////////////////////////////////-->
-         
-         <!--//////////////////////////////////////////Name end/////////////////////////////////////////////////////////////-->
-         
-         
-         <!--//////////////////////////////////////////Sign Out/////////////////////////////////////////////////////////////-->
-          
-         <!--//////////////////////////////////////////Sign Out End/////////////////////////////////////////////////////////////-->
-          
-         
-         <!--//////////////////////////////////////////Menu/////////////////////////////////////////////////////////////-->
-           
-         <!--//////////////////////////////////////////Menu End/////////////////////////////////////////////////////////////-->
 
-         
-        <!--//////////////////////////////////////////Add Question Button/////////////////////////////////////////////////////////////-->
-        <h:form>
-            <p:growl id="messages" showDetail="true"/>
+        <!--//////////////////////////////////////////Menu/////////////////////////////////////////////////////////////-->
 
-            <p:menuButton value="Add Question">
-                <p:menuitem value="Multiple Choice" action="#{menuView.multipleChoice}" update="messages" icon="pi pi-save"/>
-                <p:menuitem value="Single Choice" action="#{menuView.singleChoice}" update="messages" icon="pi pi-refresh"/>
-                <p:menuitem value="Text" action="#{menuView.text}" update="messages" icon="pi pi-refresh"/>
-                <p:menuitem value="Date" action="#{menuView.date}" update="messages" icon="pi pi-refresh"/>
-            </p:menuButton>
-        </h:form>  
-        <!--//////////////////////////////////////////Add Question Button End/////////////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////Menu End/////////////////////////////////////////////////////////////-->
+
+
+        <!--//////////////////////////////////////////Name/////////////////////////////////////////////////////////////-->
+
+        <!--//////////////////////////////////////////Name end/////////////////////////////////////////////////////////////-->
+
+
+        <!--//////////////////////////////////////////Sign Out/////////////////////////////////////////////////////////////-->
+
+        <!--//////////////////////////////////////////Sign Out End/////////////////////////////////////////////////////////////-->
+
+
+
+
+        <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA /////////////////////////////////////////////////////////////-->
+        <h:form id="form" >
+            <div class="ui-g">
+                <div class="ui-g-1" style="background-color: red">
+                    <!--//////////////////////////////////////////Add Question Button/////////////////////////////////////////////////////////////-->
+                    <p:growl id="messages" showDetail="true"/>
+
+                    <p:menuButton value="Add Question" style="margin-top:130%;">
+                        <p:menuitem value="Multiple Choice" action="#{newFormController.addMultiple}"  update="form" icon="pi pi-save"/>
+                        <p:menuitem value="Single Choice" action="#{newFormController.addSingle}" update="form" icon="pi pi-refresh"/>
+                        <p:menuitem value="Text" action="#{newFormController.addText}" update="form" icon="pi pi-refresh"/>
+                        <p:menuitem value="Date" action="#{newFormController.addDate}" update="form" icon="pi pi-refresh"/>
+                    </p:menuButton>
+
+                    <!--//////////////////////////////////////////Add Question Button End/////////////////////////////////////////////////////////////-->
+                </div>
+                <div class="ui-g-11" style="background-color: blue">
+                    <!--////////////////////////////////////////// NEW QUESTION SCROLL_PANEL AREA /////////////////////////////////////////////////////////////-->
+                    <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:99%;height:75vh;padding:5px 5px 5px 5px;margin:10% 10% 0% 0%;">
+
+                        <p:dataList var="newQuestion"  value="#{newFormController.questionList}" emptyMessage="Add a new question" type="definition" style="width:100%;">
+                            <!--////////////////////////////////////////// QUESTION AREA /////////////////////////////////////////////////////////////-->
+                            <p:growl id="msgs" showDetail="true" />
+                            <p:panel id="newQuestionPanel" header="#{newQuestion.question}" closable="true" closeSpeed="500" widgetVar="panel" style="height:300px; ">
+
+                                <p:ajax event="close" listener="#{newFormController.onClose}" update="msgs" />
+
+                                <p:inputText style="width:99%;" placeholder="Type question her"/>
+
+                            </p:panel>
+                            <!--////////////////////////////////////////// QUESTION AREA END /////////////////////////////////////////////////////////////-->
+
+                        </p:dataList>
+
+                    </p:scrollPanel>
+                    <!--////////////////////////////////////////// NEW QUESTION SCROLL_PANEL AREA END /////////////////////////////////////////////////////////////-->
+                </div>
+            </div>
+        </h:form>
+         <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA END /////////////////////////////////////////////////////////////-->
+         
     </body>
 </html>
