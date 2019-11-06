@@ -18,25 +18,25 @@ import javax.faces.bean.SessionScoped;
  *
  * @author Asus
  */
-@ManagedBean (name = "controller")
+@ManagedBean(name = "controller")
 @SessionScoped
 public class TestController {
-    
-        public void foo ()
-    {
+
+    public void foo() {
         Controller uc = new UserController();
         Controller fc = new FormController();
         User usTest = new User();
-        usTest.setEmail("santi2@test.com");
+
+        usTest.setEmail("santi4@test.com");
         Form ft = new Form();
         usTest.setFormList(new HashSet<Form>());
         usTest.getFormList().add(ft);
         ft.setUser(usTest);
-        ft.setId(1);
-        
-//        fc.insert(ft);
-        
+
         uc.insert(usTest);
+
+        fc.insert(ft);
         System.out.println("----");
+
     }
 }
