@@ -46,10 +46,10 @@
                     <!--////////////////////////////////////////// NEW QUESTION SCROLL_PANEL AREA /////////////////////////////////////////////////////////////-->
                     <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:99%;height:75vh;padding:5px 5px 5px 5px;margin:10% 10% 0% 0%;">
 
-                        <p:dataList var="newQuestion"  value="#{newFormController.questionList}" emptyMessage="Add a new question" type="definition" style="width:100%;">
+                        <p:dataList var="newQuestion"  value="#{newFormController.testForm.questionList}" emptyMessage="Add a new question" type="definition" style="width:100%;">
                             <!--////////////////////////////////////////// QUESTION AREA /////////////////////////////////////////////////////////////-->
                             <p:growl id="msgs" showDetail="true" />
-                            <p:panel id="newQuestionPanel" header="#{newQuestion.question}" closable="true" closeSpeed="500" widgetVar="panel" style="height:300px; ">
+                            <p:panel id="newQuestionPanel" header="#{newQuestion.id}" closable="true" closeSpeed="500" widgetVar="panel" style="height:300px; ">
 
                                 <p:ajax event="close" listener="#{newFormController.onClose}" update="msgs" />
 

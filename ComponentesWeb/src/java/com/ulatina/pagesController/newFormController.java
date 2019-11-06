@@ -5,12 +5,21 @@
  */
 package com.ulatina.pagesController;
 
+import com.ulatina.controllers.Controller;
+import com.ulatina.controllers.FormController;
+import com.ulatina.controllers.QuestionController;
+import com.ulatina.controllers.TypeController;
+import com.ulatina.entity.Form;
+import com.ulatina.entity.Question;
+import com.ulatina.entity.Type;
 import com.ulatina.santiTests.QuestionType;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.CloseEvent;
@@ -21,22 +30,36 @@ import org.primefaces.event.ToggleEvent;
  * @author santialfonso
  */
 @ManagedBean(name="newFormController")
-@ViewScoped
+@SessionScoped
 public class newFormController {
     
+    Controller typeController = new TypeController();
+    Controller questionController = new QuestionController();
+    Controller formController = new FormController();
+    
+    private Form testForm = (Form)formController.selectRegister("2");
+    
     //this question list is to populate the NewQuestion area. Ask Santi for more
-    private List<QuestionType> questionList = new ArrayList<>();
+    private List<Question> questionList = new ArrayList<>();
    
 
-    public List<QuestionType> getQuestionList() {
+    public List<Question> getQuestionList() {
         return questionList;
     }
 
-    public void setQuestionList(List<QuestionType> questionList) {
+    public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
     }
     
-    public void addToQuestionList(QuestionType questionType){
+    public Form getTestForm() {
+        return testForm;
+    }
+
+    public void setTestForm(Form testForm) {
+        this.testForm = testForm;
+    }
+    
+    public void addToQuestionList(Question questionType){
         this.getQuestionList().add(questionType);
     }
     
@@ -56,8 +79,18 @@ public class newFormController {
      * Then shows a message letting the user know
      */
     public void addMultiple() {
-        QuestionType newQuestionType = new QuestionType(1,this.getQuestionList().size()+1,"New Multiple Choice Question:");
-        this.addToQuestionList(newQuestionType);
+        
+        Type type = (Type)typeController.selectRegister("1");
+        Question newQuestion = new Question();
+        
+        newQuestion.setType(type);
+        newQuestion.setForm(this.getTestForm());
+        this.getTestForm().getQuestionList().add(newQuestion);
+        type.getQuestionList().add(newQuestion);
+        
+        questionController.insert(newQuestion);
+        
+        
         addMessage("Succes", "Added Multiple Choice Question");
     }
     
@@ -67,8 +100,15 @@ public class newFormController {
      * Then shows a message letting the user know
      */
     public void addSingle() {
-        QuestionType newQuestionType = new QuestionType(2,this.getQuestionList().size()+1,"New Single Choice Question:");
-        this.addToQuestionList(newQuestionType);
+        Type type = (Type)typeController.selectRegister("2");
+        Question newQuestion = new Question();
+        
+        newQuestion.setType(type);
+        newQuestion.setForm(this.getTestForm());
+        this.getTestForm().getQuestionList().add(newQuestion);
+        type.getQuestionList().add(newQuestion);
+        
+        questionController.insert(newQuestion);
         addMessage("Succes", "Added Single Choice Question");
     }
     
@@ -78,8 +118,15 @@ public class newFormController {
      * Then shows a message letting the user know
      */
     public void addText() {
-        QuestionType newQuestionType = new QuestionType(3,this.getQuestionList().size()+1,"New Input Text Question:");
-        this.addToQuestionList(newQuestionType);
+        Type type = (Type)typeController.selectRegister("3");
+        Question newQuestion = new Question();
+        
+        newQuestion.setType(type);
+        newQuestion.setForm(this.getTestForm());
+        this.getTestForm().getQuestionList().add(newQuestion);
+        type.getQuestionList().add(newQuestion);
+        
+        questionController.insert(newQuestion);
         addMessage("Succes", "Added Input Text Question");
     }
     
@@ -89,10 +136,21 @@ public class newFormController {
      * Then shows a message letting the user know
      */
     public void addDate() {
-        QuestionType newQuestionType = new QuestionType(4,this.getQuestionList().size()+1,"New Input Date Question:");
-        this.addToQuestionList(newQuestionType);
+        Type type = (Type)typeController.selectRegister("4");
+        Question newQuestion = new Question();
+        
+        newQuestion.setType(type);
+        newQuestion.setForm(this.getTestForm());
+        this.getTestForm().getQuestionList().add(newQuestion);
+        type.getQuestionList().add(newQuestion);
+        
+        questionController.insert(newQuestion);
         addMessage("Succes", "Added Input Date Question");
     }
+
+    
+
+    
     
     /**
      * shows the message after adding a question
