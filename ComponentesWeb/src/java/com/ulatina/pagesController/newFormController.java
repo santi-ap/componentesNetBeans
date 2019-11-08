@@ -5,23 +5,19 @@
  */
 package com.ulatina.pagesController;
 
-import com.ulatina.controllers.Controller;
-import com.ulatina.controllers.FormController;
-import com.ulatina.controllers.QuestionController;
-import com.ulatina.controllers.TypeController;
-import com.ulatina.entity.Form;
-import com.ulatina.entity.Question;
-import com.ulatina.entity.Type;
-import com.ulatina.santiTests.QuestionType;
+import com.ulatina.controllers.*;
+import com.ulatina.entity.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.ToggleEvent;
 
@@ -36,12 +32,27 @@ public class newFormController {
     Controller typeController = new TypeController();
     Controller questionController = new QuestionController();
     Controller formController = new FormController();
-    
+    Controller choiceController = new ChoiceController();
     private Form testForm = (Form)formController.selectRegister("2");
+    
+    //This is to call and use the same instance of the myFormsController class. Ask Santi for more info
+    @ManagedProperty(value="#{myFormsController}")
+    private myFormsController myFormsController;
+
+    public myFormsController getMyFormsController() {
+        return myFormsController;
+    }
+
+    public void setMyFormsController(myFormsController myFormsController) {
+        this.myFormsController = myFormsController;
+    }
+    
+    public newFormController() {
+        
+    }
     
     //this question list is to populate the NewQuestion area. Ask Santi for more
     private List<Question> questionList = new ArrayList<>();
-   
 
     public List<Question> getQuestionList() {
         return questionList;
@@ -128,6 +139,8 @@ public class newFormController {
         
         questionController.insert(newQuestion);
         addMessage("Succes", "Added Input Text Question");
+        
+        
     }
     
     /**
@@ -147,10 +160,6 @@ public class newFormController {
         questionController.insert(newQuestion);
         addMessage("Succes", "Added Input Date Question");
     }
-
-    
-
-    
     
     /**
      * shows the message after adding a question
@@ -162,6 +171,58 @@ public class newFormController {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
+    /**
+     * hides or shows the answer areas depending on the type of question
+     * @param question the question in area
+     * @param id the name of the panel in question
+     * @return true or false
+     */
+    public String checkRendered (Question question, String id)
+    {
+        if (question.getType().getId()<3 && id.equals("answerMultiple"))
+                return "true";
+        else if (question.getType().getId() == 3 && id.equals("answerText"))
+                return "true";
+        else if (question.getType().getId() == 4 && id.equals("answerDate"))
+                return "true";
+        else    return "false";
+    }
     
+    public void addChoice (Question question)
+    {
+        Choice newChoice = new Choice();
+        question.getChoiceList().add(newChoice);
+        newChoice.setQuestion(question);
+        choiceController.insert(newChoice);
+        addMessage("Succes", "New Choice Added");
+    }
+    
+    /**
+     * dictates what happens when the save button gets pressed
+     */
+    public void saveButton(){
+        this.getMyFormsController().setSaved(true);//sets a certain variable from the myFormsController class to 'true' to show the success message on that page
+        this.redirect("myFormsPage");//redirects to the myForms page
+    } 
+    
+    /**
+     * redirects to the specified page
+     * @param page name of page as named in the project without the .xhtml
+     */
+    public void redirect(String page)
+    {
+          try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+            FacesContext
+                    .getCurrentInstance()
+                    .getExternalContext()
+                    .redirect(
+                            request.getContextPath()
+                            + "/faces/" + page + ".xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
