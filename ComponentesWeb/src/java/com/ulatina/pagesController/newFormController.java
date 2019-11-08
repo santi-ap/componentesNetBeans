@@ -5,14 +5,8 @@
  */
 package com.ulatina.pagesController;
 
-import com.ulatina.controllers.Controller;
-import com.ulatina.controllers.FormController;
-import com.ulatina.controllers.QuestionController;
-import com.ulatina.controllers.TypeController;
-import com.ulatina.entity.Form;
-import com.ulatina.entity.Question;
-import com.ulatina.entity.Type;
-import com.ulatina.santiTests.QuestionType;
+import com.ulatina.controllers.*;
+import com.ulatina.entity.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,12 +30,15 @@ public class newFormController {
     Controller typeController = new TypeController();
     Controller questionController = new QuestionController();
     Controller formController = new FormController();
-    
+    Controller choiceController = new ChoiceController();
     private Form testForm = (Form)formController.selectRegister("2");
+
+    public newFormController() {
+        
+    }
     
     //this question list is to populate the NewQuestion area. Ask Santi for more
     private List<Question> questionList = new ArrayList<>();
-   
 
     public List<Question> getQuestionList() {
         return questionList;
@@ -128,6 +125,8 @@ public class newFormController {
         
         questionController.insert(newQuestion);
         addMessage("Succes", "Added Input Text Question");
+        
+        
     }
     
     /**
@@ -147,10 +146,6 @@ public class newFormController {
         questionController.insert(newQuestion);
         addMessage("Succes", "Added Input Date Question");
     }
-
-    
-
-    
     
     /**
      * shows the message after adding a question
@@ -160,6 +155,26 @@ public class newFormController {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    
+    public String checkRendered (Question question, String id)
+    {
+        if (question.getType().getId()<3 && id.equals("answerMultiple"))
+                return "true";
+        else if (question.getType().getId() == 3 && id.equals("answerText"))
+                return "true";
+        else if (question.getType().getId() == 4 && id.equals("answerDate"))
+                return "true";
+        else    return "false";
+    }
+    
+    public void addChoice (Question question)
+    {
+        Choice newChoice = new Choice();
+        question.getChoiceList().add(newChoice);
+        newChoice.setQuestion(question);
+        choiceController.insert(newChoice);
+        addMessage("Succes", "New Choice Added");
     }
     
     

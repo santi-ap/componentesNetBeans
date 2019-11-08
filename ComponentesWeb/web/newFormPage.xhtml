@@ -54,7 +54,28 @@
                                 <p:ajax event="close" listener="#{newFormController.onClose}" update="msgs" />
 
                                 <p:inputText style="width:99%;" placeholder="Type question here"/>
-
+                                <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA /////////////////////////////////////////////////////////////-->
+                                <p:scrollPanel id="newAnswerScrollPanel" mode="native" style="width:99%;height:25vh;padding:5px 5px 5px 5px;margin:1% 10% 0% 0%;">
+                                    
+                                    <!--////////////////////////////////////////// TEXT ANSWER /////////////////////////////////////////////////////////////-->
+                                    <p:inputText id="answerText" placeholder="Texto" style ="height:20vh;width:50%" rendered="#{newFormController.checkRendered(newQuestion, 'answerText')}"/>
+                                    <!--////////////////////////////////////////// DATE ANSWER /////////////////////////////////////////////////////////////-->
+                                    <div style="z-index: 0; background-color: orchid" > 
+                                        
+                                     <p:outputLabel for="datePicker" value="Date: " rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
+                                     <p:datePicker id="datePicker" showIcon="true" style="margin: 1% 10% 0% 0%;"  rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
+                                     
+                                    </div>
+                                    <!--////////////////////////////////////////// MULTIPLE OR SINGLE CHOICE ANSWER ANSWER /////////////////////////////////////////////////////////////-->
+                                    <div style="background-color: olive">
+                                    <p:commandButton value="+" style="font-size: 200%" action="#{newFormController.addChoice(newQuestion)}" update="newAnswerScrollPanel" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}"/>
+                                    <p:dataList var="newChoice"  value="#{newQuestion.choiceList}" emptyMessage="Add a new choice for your question" type="definition" style="width:100%;" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}">
+                                        
+                                        <p:inputText style="width:99%;" placeholder="Type possible answer here"/>
+                                    </p:dataList>    
+                                    </div>    
+                                </p:scrollPanel>
+                                <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA END /////////////////////////////////////////////////////////////-->
                             </p:panel>
                             <!--////////////////////////////////////////// QUESTION AREA END /////////////////////////////////////////////////////////////-->
 
