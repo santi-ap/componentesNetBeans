@@ -33,7 +33,14 @@ public class newFormController {
     Controller questionController = new QuestionController();
     Controller formController = new FormController();
     Controller choiceController = new ChoiceController();
-    private Form testForm = (Form)formController.selectRegister("2");
+    Controller userController = new UserController();
+    
+    
+     //this question list is to populate the NewQuestion area. Ask Santi for more
+    private List<Question> questionList = new ArrayList<>();
+    
+    private Form newForm;
+   
     
     //This is to call and use the same instance of the myFormsController class. Ask Santi for more info
     @ManagedProperty(value="#{myFormsController}")
@@ -51,23 +58,32 @@ public class newFormController {
         
     }
     
-    //this question list is to populate the NewQuestion area. Ask Santi for more
-    private List<Question> questionList = new ArrayList<>();
+    public Form getNewForm() {
+        return newForm;
+    }
 
+    public void setNewForm(Form newForm) {
+        this.newForm = newForm;
+    }
+    
+    /**
+     * creates a new form and inserts it into the database
+     */
+    public void createNewForm(){
+        this.setNewForm(new Form());
+        User user = (User) userController.selectRegister("tomasso@gmail.com");//once Alexis pushes his part, I can change this to be the actual current user
+        this.getNewForm().setUser(user);
+        this.formController.insert(this.getNewForm());
+        
+    }
+    
+   
     public List<Question> getQuestionList() {
         return questionList;
     }
 
     public void setQuestionList(List<Question> questionList) {
         this.questionList = questionList;
-    }
-    
-    public Form getTestForm() {
-        return testForm;
-    }
-
-    public void setTestForm(Form testForm) {
-        this.testForm = testForm;
     }
     
     public void addToQuestionList(Question questionType){
@@ -95,8 +111,8 @@ public class newFormController {
         Question newQuestion = new Question();
         
         newQuestion.setType(type);
-        newQuestion.setForm(this.getTestForm());
-        this.getTestForm().getQuestionList().add(newQuestion);
+        newQuestion.setForm(this.getNewForm());
+        this.getNewForm().getQuestionList().add(newQuestion);
         type.getQuestionList().add(newQuestion);
         
         questionController.insert(newQuestion);
@@ -115,8 +131,8 @@ public class newFormController {
         Question newQuestion = new Question();
         
         newQuestion.setType(type);
-        newQuestion.setForm(this.getTestForm());
-        this.getTestForm().getQuestionList().add(newQuestion);
+        newQuestion.setForm(this.getNewForm());
+        this.getNewForm().getQuestionList().add(newQuestion);
         type.getQuestionList().add(newQuestion);
         
         questionController.insert(newQuestion);
@@ -133,8 +149,8 @@ public class newFormController {
         Question newQuestion = new Question();
         
         newQuestion.setType(type);
-        newQuestion.setForm(this.getTestForm());
-        this.getTestForm().getQuestionList().add(newQuestion);
+        newQuestion.setForm(this.getNewForm());
+        this.getNewForm().getQuestionList().add(newQuestion);
         type.getQuestionList().add(newQuestion);
         
         questionController.insert(newQuestion);
@@ -153,8 +169,8 @@ public class newFormController {
         Question newQuestion = new Question();
         
         newQuestion.setType(type);
-        newQuestion.setForm(this.getTestForm());
-        this.getTestForm().getQuestionList().add(newQuestion);
+        newQuestion.setForm(this.getNewForm());
+        this.getNewForm().getQuestionList().add(newQuestion);
         type.getQuestionList().add(newQuestion);
         
         questionController.insert(newQuestion);
@@ -224,5 +240,5 @@ public class newFormController {
             e.printStackTrace();
         }
     }
-
+    
 }
