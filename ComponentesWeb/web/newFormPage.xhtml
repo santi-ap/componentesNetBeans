@@ -49,32 +49,43 @@
                         <p:dataList var="newQuestion"  value="#{newFormController.testForm.questionList}" emptyMessage="Add a new question" type="definition" style="width:100%;">
                             <!--////////////////////////////////////////// QUESTION AREA /////////////////////////////////////////////////////////////-->
                             <p:growl id="msgs" showDetail="true" />
-                            <p:panel id="newQuestionPanel" header="#{newQuestion.id}" closable="true" closeSpeed="500" widgetVar="panel" style="height:300px; ">
-
-                                <p:ajax event="close" listener="#{newFormController.onClose}" update="msgs" />
-
+                            <p:panel id="newQuestionPanel" header="#{newQuestion.id}" closeSpeed="500" widgetVar="panel" style="height:300px; ">
+                                
                                 <p:inputText style="width:99%;" placeholder="Type question here"/>
                                 <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA /////////////////////////////////////////////////////////////-->
                                 <p:scrollPanel id="newAnswerScrollPanel" mode="native" style="width:99%;height:25vh;padding:5px 5px 5px 5px;margin:1% 10% 0% 0%;">
-                                    
+
                                     <!--////////////////////////////////////////// TEXT ANSWER /////////////////////////////////////////////////////////////-->
                                     <p:inputText id="answerText" placeholder="Texto" style ="height:20vh;width:50%" rendered="#{newFormController.checkRendered(newQuestion, 'answerText')}"/>
                                     <!--////////////////////////////////////////// DATE ANSWER /////////////////////////////////////////////////////////////-->
                                     <div style="z-index: 0; background-color: orchid" > 
-                                        
-                                     <p:outputLabel for="datePicker" value="Date: " rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
-                                     <p:datePicker id="datePicker" showIcon="true" style="margin: 1% 10% 0% 0%;"  rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
-                                     
+
+                                        <p:outputLabel for="datePicker" value="Date: " rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
+                                        <p:datePicker id="datePicker" showIcon="true" style="margin: 1% 10% 0% 0%;"  rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
+
                                     </div>
                                     <!--////////////////////////////////////////// MULTIPLE OR SINGLE CHOICE ANSWER ANSWER /////////////////////////////////////////////////////////////-->
                                     <div style="background-color: olive">
-                                    <p:commandButton value="+" style="font-size: 200%" action="#{newFormController.addChoice(newQuestion)}" update="newAnswerScrollPanel" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}"/>
-                                    <p:dataList var="newChoice"  value="#{newQuestion.choiceList}" emptyMessage="Add a new choice for your question" type="definition" style="width:100%;" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}">
+                                        <p:commandButton value="+" style="font-size: 200%" action="#{newFormController.addChoice(newQuestion)}" update="newAnswerScrollPanel" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}"/>
+                                        <p:dataList var="newChoice"  value="#{newQuestion.choiceList}" emptyMessage="Add a new choice for your question" type="definition" style="width:100%;" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}">
+
+                                            <p:inputText style="width:99%;" placeholder="Type possible answer here"/>
+                                        </p:dataList>
                                         
-                                        <p:inputText style="width:99%;" placeholder="Type possible answer here"/>
-                                    </p:dataList>    
-                                    </div>    
+                                    </div>  
+                                    
                                 </p:scrollPanel>
+                                
+                                <p:growl id="message" showDetail="true" />
+
+                                <p:commandButton value="Delete" action="#{dialogView.destroyWorld}" update="message">
+                                    <p:confirm header="Confirmation" message="Are you sure?" icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                                </p:confirmDialog>  
                                 <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA END /////////////////////////////////////////////////////////////-->
                             </p:panel>
                             <!--////////////////////////////////////////// QUESTION AREA END /////////////////////////////////////////////////////////////-->
@@ -86,13 +97,13 @@
                 </div>
             </div>
         </h:form>
-         <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA END /////////////////////////////////////////////////////////////-->
-         
-         <h:form style="background-color: purple">
-             <div style="background-color: purple">
-                 <p:commandButton action="#{newFormController.saveButton()}" value="Save" style="width:100px;height:5vh; font-size: large; margin-left: 70%" />
-             </div>
-         </h:form>
-         
+        <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA END /////////////////////////////////////////////////////////////-->
+
+        <h:form style="background-color: purple">
+            <div style="background-color: purple">
+                <p:commandButton action="#{newFormController.saveButton()}" value="Save" style="width:100px;height:5vh; font-size: large; margin-left: 70%" />
+            </div>
+        </h:form>
+
     </body>
 </html>

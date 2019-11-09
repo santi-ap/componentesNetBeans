@@ -35,6 +35,16 @@ public class newFormController {
     Controller choiceController = new ChoiceController();
     private Form testForm = (Form)formController.selectRegister("2");
     
+    String deleteRendered = "false";
+
+    public String getDeleteRendered() {
+        return deleteRendered;
+    }
+
+    public void setDeleteRendered(String deleteRendered) {
+        this.deleteRendered = deleteRendered;
+    }
+    
     //This is to call and use the same instance of the myFormsController class. Ask Santi for more info
     @ManagedProperty(value="#{myFormsController}")
     private myFormsController myFormsController;
@@ -80,8 +90,10 @@ public class newFormController {
      * @param event 
      */ 
     public void onClose(CloseEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panel Closed", "Closed panel id:'" + event.getComponent().getId() + "'");
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Question Deleted", null);
         FacesContext.getCurrentInstance().addMessage(null, message);
+        
+        this.deleteRenderedTrue();
     }
      
     /**
@@ -223,6 +235,10 @@ public class newFormController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public void deleteRenderedTrue(){
+        this.deleteRendered = "true";
     }
 
 }
