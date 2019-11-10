@@ -3,11 +3,36 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-    <head>
+    <h:head>
         <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+        
+    </h:head>
     <body>
-        <div>TODO write content</div>
+       <p:panel header="Registro" style="width:1000px" >
+            <p:growl id="mensajes" showDetail="true" life="5000" />
+            <h:panelGrid columns="2" id="pgDatos" cellpadding="8" />
+            <h:form id="formRegistro" >
+                  
+                   
+                <p>Email:<h:inputText id="EmailId" value="#{VerificationController.emails}" required="true"/></p>
+                    
+                <p>Name:<h:inputText id="NameId" value="#{VerificationController.name}" required="true"/></p>
+                   
+                    
+                    <p:outputLabel for="pass1" value=" Password"/>   
+                    <p:password id="pass1" value="#{VerificationController.pass}" required="true"
+                                validatorMessage="the passwords doesnt match " weakLabel="Weak" strongLabel="Strong" goodLabel="Good"
+                    match="pass2"  feedback="true"  promptLabel="ingrese una clave" />  
+                    <p:message for="pass1" />
+                    
+                    <p:outputLabel for="pass2" value="Confirm Password"/>  
+                    <p:password id="pass2" required="true"/>
+                       <br></br>
+                       <h:commandButton id="signupId" value="Signup" class="btn btn-danger btn-fill " action="#{VerificationController.register()}" />
+                  
+            
+                </h:form>
+                       
+                        </p:panel>
     </body>
 </html>
