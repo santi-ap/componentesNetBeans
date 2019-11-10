@@ -17,9 +17,7 @@ import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-
-
-@ManagedBean(name="VerificationController")
+@ManagedBean(name = "VerificationController")
 @SessionScoped
 /**
  *
@@ -29,47 +27,41 @@ public class VerificationController implements Serializable {
 
     public VerificationController() {
     }
-      private static final long serialVersionUID = 1L;
-      UserController us = new UserController();
+    private static final long serialVersionUID = 1L;
+    UserController us = new UserController();
 
-      
-       //Variables for login
+    //Variables for login
     private String email;
     private String password;
     private User currentUser;
     //variables for sing up
-    private String emails ;
-    private  String name;
+    private String emails;
+    private String name;
     private String pass;
-    
-    
-    
-    
-    
-    
-    
-    public String register(){
+
+    public String register() {
         User usr = new User();
- 
-    usr.setName(name);
-    usr.setEmail(emails);
-    usr.setPassword(pass);
-         us.insert(usr);
-       if (usr!= null) {
+
+        usr.setName(name);
+        usr.setEmail(emails);
+        usr.setPassword(pass);
+        us.insert(usr);
+        if (usr != null) {
             System.out.println(usr.getName());
             FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .addResponseCookie("name", usr.getName(), null);
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
-        return null;
+            return null;
         }
         return "myFormsPage.xhtml?faces-redirect=true";
     }
-public String login(){
-      currentUser = us.loginClient(this.email, this.password);
-       
-            if (currentUser != null) {
+
+    public String login() {
+        currentUser = us.loginClient(this.email, this.password);
+
+        if (currentUser != null) {
             System.out.println(currentUser.getName());
             FacesContext.getCurrentInstance()
                     .getExternalContext()
@@ -78,17 +70,8 @@ public String login(){
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
             return null;
         }
-        return  "newFormPage.xhtml?faces-redirect=true";
-}
-
-
-    
-       
-
-    
-      
-    
-
+        return "newFormPage.xhtml?faces-redirect=true";
+    }
 
     public UserController getUs() {
         return us;
@@ -145,6 +128,5 @@ public String login(){
     public void setPass(String pass) {
         this.pass = pass;
     }
-    
 
 }

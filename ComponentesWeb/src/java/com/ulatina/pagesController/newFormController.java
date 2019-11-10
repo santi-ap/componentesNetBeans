@@ -40,11 +40,18 @@ public class newFormController {
     private List<Question> questionList = new ArrayList<>();
     
     private Form newForm;
-   
     
+    //This is to call and use the same instance of the VerificationController class. Ask Santi for more info
+    @ManagedProperty(value="#{VerificationController}")
+    private VerificationController verificationController;
+
     //This is to call and use the same instance of the myFormsController class. Ask Santi for more info
     @ManagedProperty(value="#{myFormsController}")
     private myFormsController myFormsController;
+    
+     public newFormController() {
+        
+    }
 
     public myFormsController getMyFormsController() {
         return myFormsController;
@@ -54,9 +61,15 @@ public class newFormController {
         this.myFormsController = myFormsController;
     }
     
-    public newFormController() {
-        
+    public VerificationController getVerificationController() {
+        return verificationController;
     }
+
+    public void setVerificationController(VerificationController verificationController) {
+        this.verificationController = verificationController;
+    }
+    
+   
     
     public Form getNewForm() {
         return newForm;
@@ -67,11 +80,11 @@ public class newFormController {
     }
     
     /**
-     * creates a new form and inserts it into the database
+     * creates a new form, relates it to the current user and inserts it into the database
      */
     public void createNewForm(){
         this.setNewForm(new Form());
-        User user = (User) userController.selectRegister("tomasso@gmail.com");//once Alexis pushes his part, I can change this to be the actual current user
+        User user = this.getVerificationController().getCurrentUser();//Retrieves the current sign in user from the VerificationController class
         this.getNewForm().setUser(user);
         this.formController.insert(this.getNewForm());
         
