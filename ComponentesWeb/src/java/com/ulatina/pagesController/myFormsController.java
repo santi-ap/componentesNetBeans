@@ -18,23 +18,34 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class myFormsController {
     
-    private boolean saved = false;//this is used to determine whether the success message after saving a new form should be shown or not
+    private int messageToShow = 0;//this is used to determine wich message to show when loading the page
 
-    public boolean getSaved() {
-        return saved;
+    public int getMessageToShow() {
+        return messageToShow;
     }
 
-    public void setSaved(boolean saved) {
-        this.saved = saved;
+    public void setMessageToShow(int messageToShow) {
+        this.messageToShow = messageToShow;
     }
+
+   
     
     /**
      * if true, it will call the method to display the success message after saving a new form
      */
-    public void savedForm(){
-        if(this.getSaved()){
-            addMessage("Succes!", "New Form has been saved!");
-        }
+    public void showMessageOnLoad(){
+        
+        switch (this.getMessageToShow()){
+            case 0: 
+                return;
+            case 1: 
+                addMessage("Succes!", "New Form has been saved!");
+                return;
+            case 2:
+                addMessage("Succes!", "Canceled form");
+                return;
+    }
+       
     }
     
     /**
@@ -45,6 +56,6 @@ public class myFormsController {
     public void addMessage(String summary, String detail) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
-        this.setSaved(false);
+        this.setMessageToShow(0);
     }
 }
