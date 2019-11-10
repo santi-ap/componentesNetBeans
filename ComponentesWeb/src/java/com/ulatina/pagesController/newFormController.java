@@ -75,26 +75,15 @@ public class newFormController {
         this.newForm = newForm;
     }
 
-//    /**
-//     * creates a new form and inserts it into the database
-//     */
-//    public void createNewForm(){
-//        this.setNewForm(new Form());
-//        User user = (User) userController.selectRegister("tomasso@gmail.com");//once Alexis pushes his part, I can change this to be the actual current user
-//        this.getNewForm().setUser(user);
-//        this.formController.insert(this.getNewForm());
-//        
-//    }
     /**
      * creates a new form and inserts it into the database
      */
-    @PostConstruct
-    public void init() {
+    public void createNewForm(){
         this.setNewForm(new Form());
         User user = (User) userController.selectRegister("tomasso@gmail.com");//once Alexis pushes his part, I can change this to be the actual current user
         this.getNewForm().setUser(user);
         this.formController.insert(this.getNewForm());
-
+        
     }
 
     public List<Question> getQuestionList() {
