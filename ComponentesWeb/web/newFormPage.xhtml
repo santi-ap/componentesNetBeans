@@ -7,7 +7,7 @@
     <h:head>
         <title>New Form</title> 
     </h:head>
-    <body onload='#{newFormController.createNewForm()}'>
+    <body onload="#{newFormController.createNewForm()}">
 
         <!--//////////////////////////////////////////Menu/////////////////////////////////////////////////////////////-->
 
@@ -49,12 +49,11 @@
                         <p:dataList var="newQuestion"  value="#{newFormController.newForm.questionList}" emptyMessage="Add a new question" type="definition" style="width:100%;">
                             <!--////////////////////////////////////////// QUESTION AREA /////////////////////////////////////////////////////////////-->
                             <p:growl id="msgs" showDetail="true" />
-                            <p:panel id="newQuestionPanel" header="#{newQuestion.id}" closable="true" closeSpeed="500" widgetVar="panel" style="height:300px; ">
-
-                                <p:ajax event="close" listener="#{newFormController.onClose}" update="msgs" />
+                            <p:panel id="newQuestionPanel" header="#{newQuestion.id}" closeSpeed="500" widgetVar="panel" style="height:300px; ">
 
                                 <p:inputText style="width:99%;" placeholder="Type question here"/>
                                 <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA /////////////////////////////////////////////////////////////-->
+
                                 <p:scrollPanel id="newAnswerScrollPanel" mode="native" style="width:99%;height:18vh;padding:5px 5px 5px 5px;margin:1% 10% 1% 0%;">
 
                                     <!--////////////////////////////////////////// TEXT ANSWER /////////////////////////////////////////////////////////////-->
@@ -72,9 +71,21 @@
                                         <p:dataList var="newChoice"  value="#{newQuestion.choiceList}" emptyMessage="Add a new choice for your question" type="definition" style="width:100%;" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}">
 
                                             <p:inputText style="width:99%;" placeholder="Type possible answer here"/>
-                                        </p:dataList>    
-                                    </div>    
+                                        </p:dataList>
+
+                                    </div>  
                                 </p:scrollPanel>
+
+                                <!--                                <p:growl id="message" showDetail="true" />-->
+
+                                <p:commandButton value="Delete" action="#{newFormController.deleteQuestion(newQuestion)}" update="form">
+                                    <p:confirm header="Confirmation" message="Are you sure?" icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                                </p:confirmDialog>  
                                 <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA END /////////////////////////////////////////////////////////////-->
                             </p:panel>
                             <!--////////////////////////////////////////// QUESTION AREA END /////////////////////////////////////////////////////////////-->
@@ -88,27 +99,42 @@
         </h:form>
         <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA END /////////////////////////////////////////////////////////////-->
 
-        
+
+
 
         <!--////////////////////////////////////////// SAVE AND CANCEL BUTTON AREA /////////////////////////////////////////////////////////////-->
         <h:form>
             <div style="background-color: purple">
+
+                <!--////////////////////////////////////////// CANCEL BUTTON  /////////////////////////////////////////////////////////////-->
+                <p:commandButton value="Cancel" action="#{newFormController.deleteForm()}" style="width:100px;height:5vh; font-size: xx-large; margin-left: 20%">
+                    <p:confirm header="Confirmation" message="Are you sure?" icon="pi pi-exclamation-triangle" />
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                </p:confirmDialog> 
+                <!--////////////////////////////////////////// CANCEL BUTTON END  /////////////////////////////////////////////////////////////-->
+
                 <!--////////////////////////////////////////// SAVE BUTTON  /////////////////////////////////////////////////////////////-->
-                <p:commandButton styleClass='testingSomeShit' action="#{newFormController.saveButton()}" value="Save" style="width:100px;height:5vh; font-size: xx-large; margin-left: 70%" />
+                <p:commandButton styleClass='testingSomeShit' action="#{newFormController.saveButton()}" value="Save" style="width:100px;height:5vh; font-size: xx-large; margin-left: 40%" />
                 <!--////////////////////////////////////////// SAVE BUTTON END /////////////////////////////////////////////////////////////-->
+
+
             </div>
         </h:form>
         <!--////////////////////////////////////////// SAVE AND CANCEL BUTTON AREA END /////////////////////////////////////////////////////////////-->
-        
-        
+
+
         <!--////////////////////////////////////////// SANTI TESTING BUTTON FONT SIZE /////////////////////////////////////////////////////////////-->
         <style>
-            
-            
-/*            .ui-button .ui-button-text {
-                font-size: 30px;
-            }*/
-            
+
+
+            /*            .ui-button .ui-button-text {
+                            font-size: 30px;
+                        }*/
+
             .ui-button.regCommandButton { 
 
                 background: #29b6a0;
@@ -119,16 +145,16 @@
 
                 font-family: 'pluto_sansthin';
                 font-size:5em !important;  
-                
-                
+
+
             }
-            
+
             .testingSomeShit{
                 font-size:20px ;  
             }
-            
 
-            
+
+
         </style>
         <!--////////////////////////////////////////// SANTI TESTING BUTTON FONT SIZE END /////////////////////////////////////////////////////////////-->
     </body>

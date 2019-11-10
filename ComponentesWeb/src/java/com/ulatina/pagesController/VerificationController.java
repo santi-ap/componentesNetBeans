@@ -29,28 +29,28 @@ public class VerificationController implements Serializable {
     }
     private static final long serialVersionUID = 1L;
     UserController us = new UserController();
+    User users = new User();
 
     //Variables for login
     private String email;
     private String password;
-    private User currentUser;
+
     //variables for sing up
     private String emails;
     private String name;
     private String pass;
 
     public String register() {
-        User usr = new User();
 
-        usr.setName(name);
-        usr.setEmail(emails);
-        usr.setPassword(pass);
-        us.insert(usr);
-        if (usr != null) {
-            System.out.println(usr.getName());
+        users.setName(name);
+        users.setEmail(emails);
+        users.setPassword(pass);
+        us.insert(users);
+        if (users != null) {
+            System.out.println(users.getName());
             FacesContext.getCurrentInstance()
                     .getExternalContext()
-                    .addResponseCookie("name", usr.getName(), null);
+                    .addResponseCookie("name", users.getName(), null);
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
             return null;
@@ -59,18 +59,18 @@ public class VerificationController implements Serializable {
     }
 
     public String login() {
-        currentUser = us.loginClient(this.email, this.password);
+        users = us.loginClient(this.email, this.password);
 
-        if (currentUser != null) {
-            System.out.println(currentUser.getName());
+        if (users != null) {
+            System.out.println(users.getName());
             FacesContext.getCurrentInstance()
                     .getExternalContext()
-                    .addResponseCookie("name", currentUser.getName(), null);
+                    .addResponseCookie("name", users.getName(), null);
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
             return null;
         }
-        return "newFormPage.xhtml?faces-redirect=true";
+        return "myFormsPage.xhtml?faces-redirect=true";
     }
 
     public UserController getUs() {
@@ -97,14 +97,6 @@ public class VerificationController implements Serializable {
         this.password = password;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-    }
-
     public String getEmails() {
         return emails;
     }
@@ -129,4 +121,11 @@ public class VerificationController implements Serializable {
         this.pass = pass;
     }
 
+    public User getUsers() {
+        return users;
+    }
+
+    public void setUsers(User users) {
+        this.users = users;
+    }
 }

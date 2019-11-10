@@ -5,34 +5,46 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>TODO supply a title</title>
-        
+
     </h:head>
-    <body>
-       <p:panel header="Registro" style="width:1000px" >
+    <body style="background-color: rosybrown">
+        <style>
+
+            .vertical-center {
+                margin: 0;
+                position: absolute;
+                top: 35%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+                margin-left: 35%
+            }
+        </style>
+        <p:panel class="vertical-center" header="Registro" style="width:300px" >
             <p:growl id="mensajes" showDetail="true" life="5000" />
             <h:panelGrid columns="2" id="pgDatos" cellpadding="8" />
             <h:form id="formRegistro" >
-                  
-                   
-                <p>Email:<h:inputText id="EmailId" value="#{VerificationController.emails}" required="true"/></p>
-                    
-                <p>Name:<h:inputText id="NameId" value="#{VerificationController.name}" required="true"/></p>
-                   
-                    
-                    <p:outputLabel for="pass1" value=" Password"/>   
-                    <p:password id="pass1" value="#{VerificationController.pass}" required="true"
-                                validatorMessage="the passwords doesnt match " weakLabel="Weak" strongLabel="Strong" goodLabel="Good"
-                    match="pass2"  feedback="true"  promptLabel="ingrese una clave" />  
-                    <p:message for="pass1" />
-                    
-                    <p:outputLabel for="pass2" value="Confirm Password"/>  
-                    <p:password id="pass2" required="true"/>
-                       <br></br>
-                       <h:commandButton id="signupId" value="Signup" class="btn btn-danger btn-fill " action="#{VerificationController.register()}" />
-                  
-            
-                </h:form>
-                       
-                        </p:panel>
+
+
+                <p:inputText id="EmailId" value="#{VerificationController.emails}" required="true" placeholder="Email"/>
+                <br></br><br></br>
+                
+                <p:inputText id="NameId" value="#{VerificationController.name}" required="true" placeholder="Name"/>
+                <br></br><br></br>
+
+
+                <p:password id="pass1" value="#{VerificationController.pass}" required="true"
+                            validatorMessage="the passwords doesnt match " weakLabel="Weak" strongLabel="Strong" goodLabel="Good"
+                            match="pass2"  feedback="true"  promptLabel="ingrese una clave" placeholder="Password" />  
+                <p:message for="pass1" />
+                <br></br>
+
+                <p:password id="pass2" required="true" placeholder="Confirm Password"/>
+                <br></br>
+                <p:commandButton id="signupId" value="Signup" class="btn btn-danger btn-fill " action="#{VerificationController.register()}" />
+
+
+            </h:form>
+
+        </p:panel>
     </body>
 </html>
