@@ -34,7 +34,6 @@ public class VerificationController implements Serializable {
     //Variables for login
     private String email;
     private String password;
-
     //variables for sing up
     private String emails;
     private String name;
@@ -97,30 +96,6 @@ public class VerificationController implements Serializable {
         this.password = password;
     }
 
-    public String getEmails() {
-        return emails;
-    }
-
-    public void setEmails(String emails) {
-        this.emails = emails;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
     public User getUsers() {
         return users;
     }
@@ -128,4 +103,5 @@ public class VerificationController implements Serializable {
     public void setUsers(User users) {
         this.users = users;
     }
+
 }
