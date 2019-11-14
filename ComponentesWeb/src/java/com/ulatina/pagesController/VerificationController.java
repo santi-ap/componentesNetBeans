@@ -41,9 +41,9 @@ public class VerificationController implements Serializable {
 
     public String register() {
 
-        users.setName(name);
-        users.setEmail(emails);
-        users.setPassword(pass);
+        users.setName(getName());
+        users.setEmail(getEmails());
+        users.setPassword(getPass());
         us.insert(users);
         if (users != null) {
             System.out.println(users.getName());
@@ -62,9 +62,9 @@ public class VerificationController implements Serializable {
 
         if (users != null) {
             System.out.println(users.getName());
-            FacesContext.getCurrentInstance()
-                    .getExternalContext()
-                    .addResponseCookie("name", users.getName(), null);
+//            FacesContext.getCurrentInstance()
+//                    .getExternalContext()
+//                    .addResponseCookie("name", users.getName(), null);
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
             return null;
@@ -102,6 +102,48 @@ public class VerificationController implements Serializable {
 
     public void setUsers(User users) {
         this.users = users;
+    }
+
+    /**
+     * @return the emails
+     */
+    public String getEmails() {
+        return emails;
+    }
+
+    /**
+     * @param emails the emails to set
+     */
+    public void setEmails(String emails) {
+        this.emails = emails;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the pass
+     */
+    public String getPass() {
+        return pass;
+    }
+
+    /**
+     * @param pass the pass to set
+     */
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
 }

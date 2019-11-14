@@ -10,6 +10,7 @@ import com.ulatina.entity.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -226,6 +227,10 @@ public class newFormController {
         }
     }
 
+    /**
+     * this method adds new choice to a said question
+     * @param question the question where you wanted to add the new choice
+     */
     public void addChoice(Question question) {
         Choice newChoice = new Choice();
         question.getChoiceList().add(newChoice);
@@ -238,8 +243,18 @@ public class newFormController {
      * dictates what happens when the save button gets pressed
      */
     public void saveButton() {
-        this.getMyFormsController().setMessageToShow(1);//sets a certain variable from the myFormsController class to 'true' to show the success message on that page
-        this.redirect("myFormsPage");//redirects to the myForms page
+        this.getMyFormsController().setMessageToShow(1);//sets a certain variable from the myFormsController class to an int to show the success message on that page
+        //this "for" gets every question and then looks into the question choices to update the titles on the db 
+        for (Question q : newForm.getQuestionList()) {
+            for (Choice c : q.getChoiceList()) 
+            {
+                this.choiceController.update(c);
+            }
+            
+            this.questionController.update(q);
+        }
+            this.redirect("myFormsPage");//redirects to the myForms page
+        
     }
 
     /**
@@ -293,6 +308,16 @@ public class newFormController {
         this.formController.delete(this.newForm);
         this.getMyFormsController().setMessageToShow(2);
         this.redirect("myFormsPage");
+    }
+    
+    /**
+     * this method returns a list of choices from the the question 
+     * @param question inside this question there are choice we want to return 
+     * @return  the list of choices
+     */
+    public Set<Choice> choiceListFromQuestion (Question question)
+    {
+        return question.getChoiceList();
     }
 
 }
