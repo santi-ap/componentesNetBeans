@@ -46,12 +46,12 @@
                     <!--////////////////////////////////////////// NEW QUESTION SCROLL_PANEL AREA /////////////////////////////////////////////////////////////-->
                     <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:99%;height:75vh;padding:5px 5px 5px 5px;margin:10% 10% 0% 0%;">
 
-                        <p:dataList var="newQuestion"  value="#{newFormController.newForm.questionList}" emptyMessage="Add a new question" type="definition" style="width:100%;">
+                        <p:dataList var="newQuestion"  value="#{newFormController.newForm.questionList}" emptyMessage="Add a new question" type="none" style="width:100%;">
                             <!--////////////////////////////////////////// QUESTION AREA /////////////////////////////////////////////////////////////-->
                             <p:growl id="msgs" showDetail="true" />
                             <p:panel id="newQuestionPanel" header="#{newQuestion.id}" closeSpeed="500" widgetVar="panel" style="height:300px; ">
 
-                                <p:inputText style="width:99%;" placeholder="Type question here"/>
+                                <p:inputText style="width:99%;" placeholder="Type question here" value='#{newQuestion.question}'/>
                                 <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA /////////////////////////////////////////////////////////////-->
 
                                 <p:scrollPanel id="newAnswerScrollPanel" mode="native" style="width:99%;height:18vh;padding:5px 5px 5px 5px;margin:1% 10% 1% 0%;">
@@ -60,6 +60,7 @@
                                     <p:inputText id="answerText" placeholder="Texto" style ="height:17vh;width:99%" rendered="#{newFormController.checkRendered(newQuestion, 'answerText')}"/>
                                     <!--////////////////////////////////////////// DATE ANSWER /////////////////////////////////////////////////////////////-->
                                     <div style="z-index: 0; background-color: orchid" > 
+                                        <a href="testerPage.xhtml"></a>
 
                                         <p:outputLabel for="datePicker" value="Date: " rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
                                         <p:datePicker id="datePicker" showIcon="true" style="margin: 1% 10% 0% 0%;"  rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
@@ -68,9 +69,9 @@
                                     <!--////////////////////////////////////////// MULTIPLE OR SINGLE CHOICE ANSWER ANSWER /////////////////////////////////////////////////////////////-->
                                     <div style="background-color: olive">
                                         <p:commandButton value="+" style="font-size: 200%" action="#{newFormController.addChoice(newQuestion)}" update="newAnswerScrollPanel" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}"/>
-                                        <p:dataList var="newChoice"  value="#{newQuestion.choiceList}" emptyMessage="Add a new choice for your question" type="definition" style="width:100%;" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}">
-
-                                            <p:inputText style="width:99%;" placeholder="Type possible answer here"/>
+                                        <p:dataList lazy="true" id="dataChoice" var="newChoice"  value="#{newFormController.choiceListFromQuestion(newQuestion)}" emptyMessage="Add a new choice for your question" type="definition" style="width:100%;" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}">
+                                                                                                                    <!--does this work? does anything work? do i work?-->
+                                            <p:inputText style="width:99%;" placeholder="Type possible answer here" onchange="update= 'newAnswerScrollPanel'" value='#{newChoice.choice}'/>
                                         </p:dataList>
 
                                     </div>  
@@ -96,14 +97,14 @@
                     <!--////////////////////////////////////////// NEW QUESTION SCROLL_PANEL AREA END /////////////////////////////////////////////////////////////-->
                 </div>
             </div>
-        </h:form>
+        
         <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA END /////////////////////////////////////////////////////////////-->
 
 
 
 
         <!--////////////////////////////////////////// SAVE AND CANCEL BUTTON AREA /////////////////////////////////////////////////////////////-->
-        <h:form>
+        
             <div style="background-color: purple">
 
                 <!--////////////////////////////////////////// CANCEL BUTTON  /////////////////////////////////////////////////////////////-->
@@ -118,7 +119,14 @@
                 <!--////////////////////////////////////////// CANCEL BUTTON END  /////////////////////////////////////////////////////////////-->
 
                 <!--////////////////////////////////////////// SAVE BUTTON  /////////////////////////////////////////////////////////////-->
-                <p:commandButton styleClass='testingSomeShit' action="#{newFormController.saveButton()}" value="Save" style="width:100px;height:5vh; font-size: xx-large; margin-left: 40%" />
+                <p:commandButton styleClass='testingSomeShit' update="form" action="#{newFormController.saveButton()}" value="Save" style="width:100px;height:5vh; font-size: xx-large; margin-left: 40%" >
+                    <p:confirm header="Confirmation" message="Finished editing? You will not be able to edit the form once it's saved." icon="pi pi-exclamation-triangle" />
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                </p:confirmDialog> 
                 <!--////////////////////////////////////////// SAVE BUTTON END /////////////////////////////////////////////////////////////-->
 
 
