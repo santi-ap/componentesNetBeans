@@ -6,6 +6,7 @@
 package com.ulatina.santiTests;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -19,6 +20,15 @@ public class Car implements Serializable {
     public String color;
     public int price;
     public boolean sold;
+
+    public List<String> getStringList() {
+        return stringList;
+    }
+
+    public void setStringList(List<String> stringList) {
+        this.stringList = stringList;
+    }
+    private List<String> stringList;
  
     public Car() {}
      

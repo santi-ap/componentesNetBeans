@@ -8,6 +8,7 @@
         <title>Welcome To the System</title>
     </h:head>
     <h:body style="text-align:center; background-color: rosybrown" >
+        <link href="commandButtonTest.css" rel="stylesheet" />
         <style>
 
             .vertical-center {
@@ -30,7 +31,7 @@
                         <h:outputLabel for="password" value="Password:" />
                         <p:password value="#{VerificationController.password}" id="password" required="true"  label="password" requiredMessage="The password is Required" />
                         <f:facet name="footer">
-                            <p:commandButton id="LoginId" value="Login" class="btn btn-danger btn-fill " action="#{VerificationController.login()}" />
+                            <h:commandButton id="LoginId" value="Login" class="santi"  action="#{VerificationController.login()}" />
 
                             <br></br>
                             Don't have an account yet?

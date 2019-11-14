@@ -31,6 +31,30 @@ public class VerificationController implements Serializable {
     UserController us = new UserController();
     User users = new User();
 
+    public String getEmails() {
+        return emails;
+    }
+
+    public void setEmails(String emails) {
+        this.emails = emails;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
     //Variables for login
     private String email;
     private String password;

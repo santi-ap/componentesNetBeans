@@ -40,6 +40,16 @@ public class newFormController {
     private List<Question> questionList = new ArrayList<>();
 
     private Form newForm;
+    
+    private Question testQuestion;
+
+    public Question getTestQuestion() {
+        return testQuestion;
+    }
+
+    public void setTestQuestion(Question testQuestion) {
+        this.testQuestion = testQuestion;
+    }
 
     //This is to call and use the same instance of the VerificationController class. Ask Santi for more info
     @ManagedProperty(value = "#{VerificationController}")
