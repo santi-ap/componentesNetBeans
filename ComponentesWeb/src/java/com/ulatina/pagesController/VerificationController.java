@@ -73,7 +73,7 @@ public class VerificationController implements Serializable {
         users.setPassword(getPass());
         us.insert(users);
         if (users != null) {
-            System.out.println(users.getName());
+//            System.out.println(users.getName());
 //            FacesContext.getCurrentInstance()
 //                    .getExternalContext()
 //                    .addResponseCookie("name", users.getName(), null);
