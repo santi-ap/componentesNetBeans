@@ -21,9 +21,9 @@
         </style>
         
         <p:growl id="mensajes" showDetail="true" life="5000" />
-        <h:form style="background-color: red">
+        <h:form style="background-color: red" id="form">
             <div class="vertical-center">
-                <p:panel header="Login" style="width:400px; ">
+                <p:panel  id= "panel" header="Login" style="width:400px; ">
                     <h:panelGrid columns="2" cellpadding="6">
                         <h:outputLabel for="username" value="Email:" />
                         <p:inputText value="#{VerificationController.email}" id="username" required="true" label="username" requiredMessage="The User is Required" />
@@ -31,9 +31,15 @@
                         <p:password value="#{VerificationController.password}" id="password" required="true"  label="password" requiredMessage="The password is Required" />
                         <f:facet name="footer">
                             <p:commandButton id="LoginId" value="Login" class="btn btn-danger btn-fill " action="#{VerificationController.login()}" />
+                            
+                            <p:commandButton  value="Cancel" update="panel" process="@this" action="#{VerificationController.reset()}" style="margin-right: 20px; "/>
+                            
+                          
+	
+
 
                             <br></br>
-                            Don't have an account yet?
+                          Don't have an account yet?
                             <p:link outcome="registerPage.xhtml" value="register">
                                 <f:param name="registerPage.xhtml" value="Register" />
                             </p:link>

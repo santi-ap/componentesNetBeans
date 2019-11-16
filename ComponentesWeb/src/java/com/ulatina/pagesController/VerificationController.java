@@ -12,10 +12,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.primefaces.PrimeFaces;
 
 @ManagedBean(name = "VerificationController")
 @SessionScoped
@@ -47,14 +49,27 @@ public class VerificationController implements Serializable {
         us.insert(users);
         if (users != null) {
             System.out.println(users.getName());
-            FacesContext.getCurrentInstance()
-                    .getExternalContext()
-                    .addResponseCookie("name", users.getName(), null);
+            //  FacesContext.getCurrentInstance()
+            //       .getExternalContext()
+            //      .addResponseCookie("name", users.getName(), null);
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
             return null;
         }
         return "myFormsPage.xhtml?faces-redirect=true";
+    }
+
+    public void cancelar() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .invalidateSession();
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.redirect("index");
     }
 
     public String login() {
@@ -146,4 +161,28 @@ public class VerificationController implements Serializable {
         this.pass = pass;
     }
 
+    public void reset() {
+        PrimeFaces.current().resetInputs("form:panel");
+    }
+
+    /**
+     * redirects to the specified page
+     *
+     * @param page name of page as named in the project without the .xhtml
+     */
+    public void redirect(String page) {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+            FacesContext
+                    .getCurrentInstance()
+                    .getExternalContext()
+                    .redirect(
+                            request.getContextPath()
+                            + "/faces/" + page + ".xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
