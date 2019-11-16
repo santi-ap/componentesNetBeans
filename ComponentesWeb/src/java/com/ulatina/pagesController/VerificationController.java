@@ -74,9 +74,9 @@ public class VerificationController implements Serializable {
         us.insert(users);
         if (users != null) {
             System.out.println(users.getName());
-            FacesContext.getCurrentInstance()
-                    .getExternalContext()
-                    .addResponseCookie("name", users.getName(), null);
+//            FacesContext.getCurrentInstance()
+//                    .getExternalContext()
+//                    .addResponseCookie("name", users.getName(), null);
 
             this.redirect("myFormsPage");
         } else {
