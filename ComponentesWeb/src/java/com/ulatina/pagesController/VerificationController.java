@@ -5,7 +5,9 @@
  */
 package com.ulatina.pagesController;
 
+import com.ulatina.controllers.Controller;
 import com.ulatina.controllers.UserController;
+import com.ulatina.entity.Question;
 import com.ulatina.entity.User;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
@@ -100,6 +102,7 @@ public class VerificationController implements Serializable {
         return us;
     }
 
+
     public void setUs(UserController us) {
         this.us = us;
     }
@@ -128,7 +131,19 @@ public class VerificationController implements Serializable {
         this.users = users;
     }
 
-    /**
+
+    public void logOut (){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .invalidateSession();
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+            this.redirect("index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     /**
      * redirects to the specified page
      *
      * @param page name of page as named in the project without the .xhtml
@@ -146,6 +161,15 @@ public class VerificationController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    UserController uc = new UserController();
+    Question question = new Question();
+    Controller userCunt = new UserController();
+    
+    public void testDeezNutz(){
+        uc.loginClient("hi", "hey");
+        question.getChoiceList();
     }
 
 }
