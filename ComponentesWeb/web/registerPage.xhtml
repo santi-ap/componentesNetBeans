@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Register Page</title>
 
@@ -19,28 +20,43 @@
                 margin-left: 35%
             }
         </style>
+
+      
+
         <p:panel class="vertical-center" header="Register" style="width:300px" >
+
             <p:growl id="mensajes" showDetail="true" life="5000" />
             <h:panelGrid columns="2" id="pgDatos" cellpadding="8" />
             <h:form id="formRegistro" >
 
 
-                <p:inputText id="EmailId" value="#{VerificationController.emails}" required="true" placeholder="Email" style="width:98%"/>
+
+                <p:inputText id="EmailId" value="#{VerificationController.emails}"  placeholder="Email"/>
+
                 <br></br><br></br>
-                
-                <p:inputText id="NameId" value="#{VerificationController.name}" required="true" placeholder="Name" style="width:98%"/>
+
+                <p:inputText id="NameId" value="#{VerificationController.name}"  placeholder="Name"/>
+
                 <br></br><br></br>
 
 
-                <p:password id="pass1" value="#{VerificationController.pass}" required="true"
+                <p:password id="pass1" value="#{VerificationController.pass}" 
                             validatorMessage="the passwords doesnt match " weakLabel="Weak" strongLabel="Strong" goodLabel="Good"
-                            match="pass2"  feedback="true"  promptLabel="ingrese una clave" placeholder="Password" style="width:98%" />  
+                            match="pass2"  feedback="true"  promptLabel="insert a password" placeholder="Password" style="width:98%" />  
                 <p:message for="pass1" />
                 <br></br>
 
-                <p:password id="pass2" required="true" placeholder="Confirm Password" style="width:98%"/>
+
+                <p:password id="pass2"  placeholder="Confirm Password"/>
+                <br></br>
+
+                
                 <br></br><br></br>
-                <p:commandButton id="signupId" value="Signup" class="btn btn-danger btn-fill " action="#{VerificationController.register()}" />
+
+                <p:commandButton id="signupId" value="Signup"  action="#{VerificationController.register()}" />
+                
+                <p:commandButton  id="CancelId" value="Cancel" action="#{VerificationController.cancelar()}"/>
+      
 
 
             </h:form>
