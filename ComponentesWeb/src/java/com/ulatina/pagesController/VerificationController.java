@@ -42,9 +42,9 @@ public class VerificationController implements Serializable {
 
     public String register() {
 
-        users.setName(name);
-        users.setEmail(emails);
-        users.setPassword(pass);
+        users.setName(getName());
+        users.setEmail(getEmails());
+        users.setPassword(getPass());
         us.insert(users);
         if (users != null) {
             System.out.println(users.getName());
@@ -63,9 +63,9 @@ public class VerificationController implements Serializable {
 
         if (users != null) {
             System.out.println(users.getName());
-            FacesContext.getCurrentInstance()
-                    .getExternalContext()
-                    .addResponseCookie("name", users.getName(), null);
+//            FacesContext.getCurrentInstance()
+//                    .getExternalContext()
+//                    .addResponseCookie("name", users.getName(), null);
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
             return null;
@@ -75,6 +75,30 @@ public class VerificationController implements Serializable {
 
     public UserController getUs() {
         return us;
+    }
+
+    public String getEmails() {
+        return emails;
+    }
+
+    public void setEmails(String emails) {
+        this.emails = emails;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
     public void setUs(UserController us) {
@@ -104,6 +128,7 @@ public class VerificationController implements Serializable {
     public void setUsers(User users) {
         this.users = users;
     }
+
 
     public void logOut (){
         try {
@@ -136,4 +161,7 @@ public class VerificationController implements Serializable {
         }
     }
     }
+
+
+
 

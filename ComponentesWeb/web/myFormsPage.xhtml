@@ -14,11 +14,16 @@
         onload="#{myFormsController.showMessageOnLoad()}"
         style="text-align: center; background-color:goldenrod ">
         <p:growl id="messages" showDetail="true"/>
+
         <!--////////////////////////////////////////// Background My Forms END/////////////////////////////////////////////////////////////-->
 
 
         <!--////////////////////////////////////////// Button New And My Form /////////////////////////////////////////////////////////////-->
         <h:form>
+            <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
+            <p:commandButton action="#{myFormsController.redirect(2)}"/>
+            <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
+            
             <p:commandButton value="New Form" action="#{VerificationController.redirect('newFormPage')}" style="width:100px;height:5vh; font-size: xx-large; margin-left: 20%">
 
             </p:commandButton>
@@ -69,9 +74,7 @@
             <!--////////////////////////////////////////// Scroll Panel END /////////////////////////////////////////////////////////////-->
         </p:scrollPanel>
 
-        <h:head>
-
-        </h:head>
+   
 
 
 
@@ -80,5 +83,6 @@
 
 
     </h:body> 
+
 </html>
 
