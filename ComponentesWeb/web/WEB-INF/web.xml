@@ -8,7 +8,7 @@
     <!-- /////////// Esto es para modificar los themes ///////// -->
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>delta</param-value>
+        <param-value>casablanca</param-value>
     </context-param>
     <!-- /////////// Esto es para modificar los themes ///////// --> 
     

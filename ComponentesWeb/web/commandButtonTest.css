@@ -8,3 +8,19 @@ and open the template in the editor.
     Author     : santialfonso
 */
 
+.santi{
+    font-size: 20px;
+    position: relative;
+    padding: 0;
+    margin-right: .1em;
+    text-decoration: none!important;
+    cursor: pointer;
+    text-align: center;
+    zoom: 1;
+    overflow: visible;
+    text-shadow: 0 -1px 0 #1584de;
+    font-weight: bold;
+}
+.ui-button .ui-button-text{
+    font-size: 15px;
+}

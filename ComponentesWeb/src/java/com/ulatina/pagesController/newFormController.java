@@ -10,6 +10,7 @@ import com.ulatina.entity.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -40,6 +41,20 @@ public class newFormController {
     private List<Question> questionList = new ArrayList<>();
 
     private Form newForm;
+    
+    private Question testQuestion;
+
+    public Question getTestQuestion() {
+        return testQuestion;
+    }
+
+    public void setTestQuestion(Question testQuestion) {
+        this.testQuestion = testQuestion;
+    }
+
+    //This is to call and use the same instance of the VerificationController class. Ask Santi for more info
+    @ManagedProperty(value = "#{VerificationController}")
+    private VerificationController verificationController;
 
     String deleteRendered = "true";
 
@@ -55,6 +70,10 @@ public class newFormController {
     @ManagedProperty(value = "#{myFormsController}")
     private myFormsController myFormsController;
 
+    public newFormController() {
+
+    }
+
     public myFormsController getMyFormsController() {
         return myFormsController;
     }
@@ -63,8 +82,12 @@ public class newFormController {
         this.myFormsController = myFormsController;
     }
 
-    public newFormController() {
+    public VerificationController getVerificationController() {
+        return verificationController;
+    }
 
+    public void setVerificationController(VerificationController verificationController) {
+        this.verificationController = verificationController;
     }
 
     public Form getNewForm() {
@@ -76,14 +99,15 @@ public class newFormController {
     }
 
     /**
-     * creates a new form and inserts it into the database
+     * creates a new form, relates it to the current user and inserts it into
+     * the database
      */
-    public void createNewForm(){
+    public void createNewForm() {
         this.setNewForm(new Form());
-        User user = (User) userController.selectRegister("tomasso@gmail.com");//once Alexis pushes his part, I can change this to be the actual current user
+        User user = this.getVerificationController().getUsers();//Retrieves the current sign in user from the VerificationController class
         this.getNewForm().setUser(user);
         this.formController.insert(this.getNewForm());
-        
+
     }
 
     public List<Question> getQuestionList() {
@@ -213,6 +237,10 @@ public class newFormController {
         }
     }
 
+    /**
+     * this method adds new choice to a said question
+     * @param question the question where you wanted to add the new choice
+     */
     public void addChoice(Question question) {
         Choice newChoice = new Choice();
         question.getChoiceList().add(newChoice);
@@ -225,8 +253,19 @@ public class newFormController {
      * dictates what happens when the save button gets pressed
      */
     public void saveButton() {
-        this.getMyFormsController().setMessageToShow(1);//sets a certain variable from the myFormsController class to 'true' to show the success message on that page
-        this.redirect("myFormsPage");//redirects to the myForms page
+        this.getMyFormsController().setMessageToShow(1);//sets a certain variable from the myFormsController class to an int to show the success message on that page
+        //this "for" gets every question and then looks into the question choices to update the titles on the db 
+        this.formController.update(this.getNewForm());
+        for (Question q : newForm.getQuestionList()) {
+            for (Choice c : q.getChoiceList()) 
+            {
+                this.choiceController.update(c);
+            }
+            
+            this.questionController.update(q);
+        }
+            this.redirect("myFormsPage");//redirects to the myForms page
+        
     }
 
     /**
@@ -273,14 +312,23 @@ public class newFormController {
             }
             q.setChoiceList(null);
             this.questionController.delete(q);
-            
+
         }
         this.getNewForm().setQuestionList(null);
-        
+
         this.formController.delete(this.newForm);
         this.getMyFormsController().setMessageToShow(2);
         this.redirect("myFormsPage");
     }
     
+    /**
+     * this method returns a list of choices from the the question 
+     * @param question inside this question there are choice we want to return 
+     * @return  the list of choices
+     */
+    public Set<Choice> choiceListFromQuestion (Question question)
+    {
+        return question.getChoiceList();
+    }
 
 }

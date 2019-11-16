@@ -16,7 +16,7 @@ import javax.faces.bean.ViewScoped;
  *
  * @author santialfonso
  */
-@ManagedBean
+@ManagedBean(name="ListTest")
 @ViewScoped
 public class DataListView implements Serializable {
      

@@ -7,35 +7,49 @@
     <h:head>
         <title>Welcome To the System</title>
     </h:head>
-    <h:body style="text-align:center" >
+    <h:body style="text-align:center; background-color: background" >
+        <link href="commandButtonTest.css" rel="stylesheet" />
+        <style>
+
+            .vertical-center {
+                margin: 0;
+                position: absolute;
+                top: 35%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+                margin-left: 35%
+            }
+        </style>
 
         <p:growl id="mensajes" showDetail="true" life="5000" />
-        <h:form>
-            <p:panel header="Login" style="width:400px">
-                <h:panelGrid columns="2" cellpadding="6">
-                    <h:outputLabel for="username" value="Username:" />
-                    <p:inputText value="#{VerificationController.email}" id="username" required="true" label="username" requiredMessage="The User is Required" />
-                    <h:outputLabel for="password" value="passwword:" />
-                    <p:password value="#{VerificationController.password}" id="password" required="true"  label="password" requiredMessage="The password is Required" />
-                    <f:facet name="footer">
-                        <h:commandButton id="LoginId" value="Login" class="btn btn-danger btn-fill " action="#{VerificationController.login()}" />
-                           
-                        <br></br>
-                        you dont have an account yet
-                        <p:link outcome="registerPage.xhtml" value="register">
-                            <f:param name="registerPage.xhtml" value="Register" />
-                        </p:link>
-                         </f:facet>
-                      </h:panelGrid>
-                 </p:panel>
-                        <br></br>
-  </h:form>
-        </h:body>
+        <h:form style="background-color: red">
+            <div class="vertical-center">
+                <p:panel header="Login" style="width:400px; ">
+                    <h:panelGrid columns="2" cellpadding="6">
+                        <h:outputLabel for="username" value="Email:" />
+                        <p:inputText value="#{VerificationController.email}" id="username" required="true" label="username" requiredMessage="The User is Required" />
+                        <h:outputLabel for="password" value="Password:" />
+                        <p:password value="#{VerificationController.password}" id="password" required="true"  label="password" requiredMessage="The password is Required" />
+                        <f:facet name="footer">
+                            <p:commandButton id="LoginId" value="Login"   action="#{VerificationController.login()}" />
+
+                            <br></br>
+                            Don't have an account yet?
+                            <p:link outcome="registerPage.xhtml" value="register">
+                                <f:param name="registerPage.xhtml" value="Register" />
+                            </p:link>
+                        </f:facet>
+                    </h:panelGrid>
+                </p:panel>
+                <br></br>
+            </div>
+        </h:form>
+    </h:body>
     <script type="text/javascript">
         //<![CDATA[
         function manejarLogin(xhr, status, args) {
-           // alert('args.estaLogeado ' + args.estaLogeado);
-           // alert('args.nombre ' + args.nombre);
+            // alert('args.estaLogeado ' + args.estaLogeado);
+            // alert('args.nombre ' + args.nombre);
 
             if (args.estaLogeado) {
                 //alert('Entro a la funcion en Javascript de prueba para hacer una pausa antes de ingresar');
@@ -46,4 +60,39 @@
         }
         //]]>
     </script>
-    </html>
+
+    <!--////////////////////////////////////////// SANTI TESTING BUTTON FONT SIZE /////////////////////////////////////////////////////////////-->
+    <style>
+
+
+/*        .ui-button .ui-button-text {
+            font-size: 30px;
+        }*/
+
+        .ui-button.regCommandButton { 
+
+            background: #29b6a0;
+            color: #23a38f;
+
+            width: 100%; 
+            height: 25px; 
+
+            font-family: 'pluto_sansthin';
+            font-size:5em !important;  
+
+
+        }
+
+        .testingSomeShit{
+            font-size:20px ;  
+        }
+        
+        .ui-widget {
+            font-size: 20px;
+        }
+
+
+
+    </style>
+    <!--////////////////////////////////////////// SANTI TESTING BUTTON FONT SIZE END /////////////////////////////////////////////////////////////-->
+</html>

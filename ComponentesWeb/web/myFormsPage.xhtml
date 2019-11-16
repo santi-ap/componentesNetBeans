@@ -2,13 +2,98 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>My Forms</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
-    <h:body onload="#{myFormsController.showMessageOnLoad()}">
+
+    <h:body onload="#{myFormsController.showMessageOnLoad()}" style="text-align: center; background-color: background">
         <p:growl id="messages" showDetail="true"/>
-        
-    </h:body>
+
+        <h:form>
+
+
+            <!--////////////////////////////////////////// Button New And My Form /////////////////////////////////////////////////////////////-->
+
+            <div class="ui-g" >
+                <div class="ui-g-12 ui-md-10 ui-lg-10" style=" font-size: 25px ">
+                    <p:tabMenu activeIndex="#{param.i}"  style="width: fit-content; position: relative;  margin-left: 50%;   " >
+
+                        <p:menuitem value="My Form" outcome="myFormsPage" >
+                            <f:param name="i" value="0" />
+                        </p:menuitem>
+                        <p:menuitem value="New Form" outcome="newFormPage" >
+                            <f:param name="i" value="1" />
+                        </p:menuitem>
+
+                    </p:tabMenu>
+                </div>
+                <!--////////////////////////////////////////// Button New And My Form END /////////////////////////////////////////////////////////////-->
+
+                <!--////////////////////////////////////////// Name AND SIGN OUT /////////////////////////////////////////////////////////////-->
+                <div class="ui-g-12 ui-md-2 ui-lg-2" >
+                    <p:outputLabel  value="#{VerificationController.users.name}" style=" font-size: 30px; font-weight: bold; color: azure" />
+                    <br></br>
+                    <p:commandButton value="Sign Out" action="#{VerificationController.logOut()}" style=" font-size: 15px; "/>
+                </div>
+                <!--////////////////////////////////////////// Name AND SIGN OUT END /////////////////////////////////////////////////////////////-->
+            </div>
+
+
+
+            <div style=" margin-top: 30px">
+                <!--////////////////////////////////////////// Scroll Panel  /////////////////////////////////////////////////////////////-->
+                <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:70%;height:80vh;padding:5px 5px 5px 5px; margin-left: 15%;">
+
+
+
+
+                    <!--////////////////////////////////////////// Button Menu /////////////////////////////////////////////////////////////-->
+                    <p:dataList var="myForm"  value="#{VerificationController.users.formList}" emptyMessage="Form 1" type="definition" style="width:100%;">
+                        <p:panel id="newQuestionPanel" header="#{myForm.title}" closeSpeed="500" widgetVar="panel" style="height: fit-content; font-size: 25px; border: solid #23a38f">
+
+
+                            <div class="ui-g" style=" font-size: 20px">
+                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
+                                    <p:commandButton value="View Form" />
+                                </div>
+
+                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
+                                    <p:commandButton value="View Answer"  action="#{myFormsController.redirectToFormAnswer(2)}"/>
+                                </div>
+
+                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
+                                    <p:commandButton value="Get Link" />
+                                </div>
+                            </div>
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// Button Menu END /////////////////////////////////////////////////////////////-->
+
+
+                    <!--////////////////////////////////////////// Scroll Panel END /////////////////////////////////////////////////////////////-->
+                </p:scrollPanel>
+            </div>
+        </h:form>
+
+
+        <style>
+            .ui-tabmenu .ui-tabmenu-nav {
+                padding: 0px 0px 0px 0px;
+            }
+
+
+            .vertical-center-menu {
+                margin: 0;
+                position: inherit;
+                top: 35%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }
+        </style>
+    </h:body> 
+
 </html>
+
