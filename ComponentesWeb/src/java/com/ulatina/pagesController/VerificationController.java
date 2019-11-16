@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
@@ -63,7 +64,7 @@ public class VerificationController implements Serializable {
     private String name;
     private String pass;
 
-    public String register() {
+    public void register() {
 
         users.setName(getName());
         users.setEmail(getEmails());
@@ -74,14 +75,14 @@ public class VerificationController implements Serializable {
             FacesContext.getCurrentInstance()
                     .getExternalContext()
                     .addResponseCookie("name", users.getName(), null);
+
+            this.redirect("myFormsPage");
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
-            return null;
         }
-        return "myFormsPage.xhtml?faces-redirect=true";
     }
 
-    public String login() {
+    public void login() {
         users = us.loginClient(this.email, this.password);
 
         if (users != null) {
@@ -89,11 +90,10 @@ public class VerificationController implements Serializable {
 //            FacesContext.getCurrentInstance()
 //                    .getExternalContext()
 //                    .addResponseCookie("name", users.getName(), null);
+            this.redirect("myFormsPage");
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
-            return null;
         }
-        return "myFormsPage.xhtml?faces-redirect=true";
     }
 
     public UserController getUs() {
@@ -129,45 +129,23 @@ public class VerificationController implements Serializable {
     }
 
     /**
-     * @return the emails
+     * redirects to the specified page
+     *
+     * @param page name of page as named in the project without the .xhtml
      */
-    public String getEmails() {
-        return emails;
-    }
-
-    /**
-     * @param emails the emails to set
-     */
-    public void setEmails(String emails) {
-        this.emails = emails;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the pass
-     */
-    public String getPass() {
-        return pass;
-    }
-
-    /**
-     * @param pass the pass to set
-     */
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void redirect(String page) {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+            FacesContext
+                    .getCurrentInstance()
+                    .getExternalContext()
+                    .redirect(
+                            request.getContextPath()
+                            + "/faces/" + page + ".xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
