@@ -5,7 +5,9 @@
  */
 package com.ulatina.pagesController;
 
+import com.ulatina.controllers.Controller;
 import com.ulatina.controllers.UserController;
+import com.ulatina.entity.Question;
 import com.ulatina.entity.User;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
@@ -33,6 +35,30 @@ public class VerificationController implements Serializable {
     UserController us = new UserController();
     User users = new User();
 
+    public String getEmails() {
+        return emails;
+    }
+
+    public void setEmails(String emails) {
+        this.emails = emails;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
     //Variables for login
     private String email;
     private String password;
@@ -41,22 +67,23 @@ public class VerificationController implements Serializable {
     private String name;
     private String pass;
 
-    public String register() {
+    public void register() {
 
         users.setName(getName());
         users.setEmail(getEmails());
         users.setPassword(getPass());
         us.insert(users);
         if (users != null) {
+
             System.out.println(users.getName());
-            //  FacesContext.getCurrentInstance()
-            //       .getExternalContext()
-            //      .addResponseCookie("name", users.getName(), null);
+           
+            this.redirect("myFormsPage");
+
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
-            return null;
         }
-        return "myFormsPage.xhtml?faces-redirect=true";
+
+     
     }
 
     public void cancelar() {
@@ -70,9 +97,10 @@ public class VerificationController implements Serializable {
         }
 
         this.redirect("index");
+
     }
 
-    public String login() {
+    public void login() {
         users = us.loginClient(this.email, this.password);
 
         if (users != null) {
@@ -80,16 +108,16 @@ public class VerificationController implements Serializable {
 //            FacesContext.getCurrentInstance()
 //                    .getExternalContext()
 //                    .addResponseCookie("name", users.getName(), null);
+            this.redirect("myFormsPage");
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
-            return null;
         }
-        return "myFormsPage.xhtml?faces-redirect=true";
     }
 
     public UserController getUs() {
         return us;
     }
+
 
     public void setUs(UserController us) {
         this.us = us;
@@ -119,53 +147,19 @@ public class VerificationController implements Serializable {
         this.users = users;
     }
 
-    /**
-     * @return the emails
-     */
-    public String getEmails() {
-        return emails;
-    }
 
-    /**
-     * @param emails the emails to set
-     */
-    public void setEmails(String emails) {
-        this.emails = emails;
+    public void logOut (){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .invalidateSession();
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+            this.redirect("index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the pass
-     */
-    public String getPass() {
-        return pass;
-    }
-
-    /**
-     * @param pass the pass to set
-     */
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public void reset() {
-        PrimeFaces.current().resetInputs("form:panel");
-    }
-
-    /**
+     /**
      * redirects to the specified page
      *
      * @param page name of page as named in the project without the .xhtml
@@ -183,6 +177,21 @@ public class VerificationController implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+    
+    UserController uc = new UserController();
+    Question question = new Question();
+    Controller userCunt = new UserController();
+    
+    public void testDeezNutz(){
+        uc.loginClient("hi", "hey");
+        question.getChoiceList();
+    }
+
+    public void reset() {
+        PrimeFaces.current().resetInputs("form:panel");
+    }
+
+    
+  
 }

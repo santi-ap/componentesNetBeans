@@ -7,7 +7,8 @@
     <h:head>
         <title>Welcome To the System</title>
     </h:head>
-    <h:body style="text-align:center; background-color: rosybrown" >
+    <h:body style="text-align:center; background-color: background" >
+        <link href="commandButtonTest.css" rel="stylesheet" />
         <style>
 
             .vertical-center {
@@ -19,7 +20,7 @@
                 margin-left: 35%
             }
         </style>
-        
+
         <p:growl id="mensajes" showDetail="true" life="5000" />
         <h:form style="background-color: red" id="form">
             <div class="vertical-center">
@@ -35,8 +36,6 @@
                             <p:commandButton  value="Cancel" update="panel" process="@this" action="#{VerificationController.reset()}" style="margin-right: 20px; "/>
                             
                           
-	
-
 
                             <br></br>
                           Don't have an account yet?
@@ -65,4 +64,39 @@
         }
         //]]>
     </script>
+
+    <!--////////////////////////////////////////// SANTI TESTING BUTTON FONT SIZE /////////////////////////////////////////////////////////////-->
+    <style>
+
+
+/*        .ui-button .ui-button-text {
+            font-size: 30px;
+        }*/
+
+        .ui-button.regCommandButton { 
+
+            background: #29b6a0;
+            color: #23a38f;
+
+            width: 100%; 
+            height: 25px; 
+
+            font-family: 'pluto_sansthin';
+            font-size:5em !important;  
+
+
+        }
+
+        .testingSomeShit{
+            font-size:20px ;  
+        }
+        
+        .ui-widget {
+            font-size: 20px;
+        }
+
+
+
+    </style>
+    <!--////////////////////////////////////////// SANTI TESTING BUTTON FONT SIZE END /////////////////////////////////////////////////////////////-->
 </html>

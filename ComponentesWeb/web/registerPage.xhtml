@@ -5,10 +5,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>TODO supply a title</title>
+        <title>Register Page</title>
 
     </h:head>
-    <body style="background-color: rosybrown">
+    <body style="background-color: background">
         <style>
 
             .vertical-center {
@@ -20,28 +20,40 @@
                 margin-left: 35%
             }
         </style>
-        <p:panel   id="register" class="vertical-center" header="Registro" style="width:300px" >
+
+      
+
+        <p:panel class="vertical-center" header="Register" style="width:300px" >
+
             <p:growl id="mensajes" showDetail="true" life="5000" />
             <h:panelGrid columns="2" id="pgDatos" cellpadding="8" />
             <h:form id="formRegistro" >
 
 
+
                 <p:inputText id="EmailId" value="#{VerificationController.emails}"  placeholder="Email"/>
+
                 <br></br><br></br>
-                
+
                 <p:inputText id="NameId" value="#{VerificationController.name}"  placeholder="Name"/>
+
                 <br></br><br></br>
 
 
                 <p:password id="pass1" value="#{VerificationController.pass}" 
                             validatorMessage="the passwords doesnt match " weakLabel="Weak" strongLabel="Strong" goodLabel="Good"
-                            match="pass2"  feedback="true"  promptLabel="ingrese una clave" placeholder="Password" />  
+                            match="pass2"  feedback="true"  promptLabel="insert a password" placeholder="Password" style="width:98%" />  
                 <p:message for="pass1" />
                 <br></br>
 
+
                 <p:password id="pass2"  placeholder="Confirm Password"/>
                 <br></br>
-                <p:commandButton id="signupId" value="Signup" class="btn btn-danger btn-fill " action="#{VerificationController.register()}" />
+
+                
+                <br></br><br></br>
+
+                <p:commandButton id="signupId" value="Signup"  action="#{VerificationController.register()}" />
                 
                 <p:commandButton  id="CancelId" value="Cancel" action="#{VerificationController.cancelar()}"/>
       

@@ -7,33 +7,59 @@
     <h:head>
         <title>New Form</title> 
     </h:head>
-    <body onload="#{newFormController.createNewForm()}">
+    <body onload="#{newFormController.createNewForm()}" style="background-color: background; " >
+        
+        <h:form >
+        <!--////////////////////////////////////////// Button New And My Form /////////////////////////////////////////////////////////////-->
 
-        <!--//////////////////////////////////////////Menu/////////////////////////////////////////////////////////////-->
+            <div class="ui-g" >
+                <div class="ui-g-12 ui-md-10 ui-lg-10" style=" font-size: 25px;">
+                    <p:tabMenu activeIndex="#{param.i}"  style="width: fit-content;  ;margin-left: 40%;   " >
 
-        <!--//////////////////////////////////////////Menu End/////////////////////////////////////////////////////////////-->
+                        <p:menuitem value="My Form" outcome="myFormsPage" >
+                            <f:param name="i" value="0" />
+                        </p:menuitem>
+                        <p:menuitem value="New Form" outcome="newFormPage" >
+                            <f:param name="i" value="1" />
+                        </p:menuitem>
+
+                    </p:tabMenu>
+                </div>
+                <!--////////////////////////////////////////// Button New And My Form END /////////////////////////////////////////////////////////////-->
+
+                <!--////////////////////////////////////////// Name AND SIGN OUT /////////////////////////////////////////////////////////////-->
+                <div class="ui-g-12 ui-md-2 ui-lg-2"  >
+                    <p:outputLabel  value="#{VerificationController.users.name}" style=" font-size: 30px; font-weight: bold; color: azure" />
+                    <br></br>
+
+                    <p:commandButton value="Sign Out" action="#{VerificationController.logOut()}" style=" font-size: 15px; margin-left: 5%"/>
+                </div>
+                <!--////////////////////////////////////////// Name AND SIGN OUT END /////////////////////////////////////////////////////////////-->
+            </div>
+        
+        
+            
+
+            
 
 
-        <!--//////////////////////////////////////////Name/////////////////////////////////////////////////////////////-->
+        </h:form>
 
-        <!--//////////////////////////////////////////Name end/////////////////////////////////////////////////////////////-->
-
-
-        <!--//////////////////////////////////////////Sign Out/////////////////////////////////////////////////////////////-->
-
-        <!--//////////////////////////////////////////Sign Out End/////////////////////////////////////////////////////////////-->
 
 
 
 
         <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA /////////////////////////////////////////////////////////////-->
-        <h:form id="form" >
+        <h:form id="form" style=" margin-top: 20px"> 
+            
+            <p:inputText id="insertText" value="#{newFormController.newForm.title}" placeholder="Insert Form Title Here" style=" margin-left: 25%; font-size: 30px; width: 50%"/>
+            
             <div class="ui-g">
-                <div class="ui-g-1" style="background-color: red">
+                <div class="ui-g-1 ui-md-1 ui-lg-1" >
                     <!--//////////////////////////////////////////Add Question Button/////////////////////////////////////////////////////////////-->
                     <p:growl id="messages" showDetail="true"/>
 
-                    <p:menuButton value="Add Question" style="margin-top:130%;">
+                    <p:menuButton value="Add Question" style="top:0%;">
                         <p:menuitem value="Multiple Choice" action="#{newFormController.addMultiple}"  update="form" icon="pi pi-save"/>
                         <p:menuitem value="Single Choice" action="#{newFormController.addSingle}" update="form" icon="pi pi-refresh"/>
                         <p:menuitem value="Text" action="#{newFormController.addText}" update="form" icon="pi pi-refresh"/>
@@ -42,16 +68,16 @@
 
                     <!--//////////////////////////////////////////Add Question Button End/////////////////////////////////////////////////////////////-->
                 </div>
-                <div class="ui-g-11" style="background-color: blue">
+                <div class="ui-g-11 ui-md-11 ui-lg-11">
                     <!--////////////////////////////////////////// NEW QUESTION SCROLL_PANEL AREA /////////////////////////////////////////////////////////////-->
-                    <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:99%;height:75vh;padding:5px 5px 5px 5px;margin:10% 10% 0% 0%;">
+                    <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:99%;height:75vh;padding:5px 5px 5px 5px;margin:0% 10% 0% 0%;">
 
                         <p:dataList var="newQuestion"  value="#{newFormController.newForm.questionList}" emptyMessage="Add a new question" type="none" style="width:100%;">
                             <!--////////////////////////////////////////// QUESTION AREA /////////////////////////////////////////////////////////////-->
                             <p:growl id="msgs" showDetail="true" />
-                            <p:panel id="newQuestionPanel" header="#{newQuestion.id}" closeSpeed="500" widgetVar="panel" style="height:300px; ">
+                            <p:panel id="newQuestionPanel" header="New Question" closeSpeed="500" widgetVar="panel" style="height:350px; ">
 
-                                <p:inputText style="width:99%;" placeholder="Type question here" value='#{newQuestion.question}'/>
+                                <p:inputText style="width:99%;" placeholder="Type question here"  value='#{newQuestion.question}'/>
                                 <!--////////////////////////////////////////// POSSIBLE ANSWERS AREA /////////////////////////////////////////////////////////////-->
 
                                 <p:scrollPanel id="newAnswerScrollPanel" mode="native" style="width:99%;height:18vh;padding:5px 5px 5px 5px;margin:1% 10% 1% 0%;">
@@ -59,7 +85,7 @@
                                     <!--////////////////////////////////////////// TEXT ANSWER /////////////////////////////////////////////////////////////-->
                                     <p:inputText id="answerText" placeholder="Texto" style ="height:17vh;width:99%" rendered="#{newFormController.checkRendered(newQuestion, 'answerText')}"/>
                                     <!--////////////////////////////////////////// DATE ANSWER /////////////////////////////////////////////////////////////-->
-                                    <div style="z-index: 0; background-color: orchid" > 
+                                    <div style="z-index: 0; " > 
                                         <a href="testerPage.xhtml"></a>
 
                                         <p:outputLabel for="datePicker" value="Date: " rendered="#{newFormController.checkRendered(newQuestion, 'answerDate')}"/>
@@ -67,11 +93,11 @@
 
                                     </div>
                                     <!--////////////////////////////////////////// MULTIPLE OR SINGLE CHOICE ANSWER ANSWER /////////////////////////////////////////////////////////////-->
-                                    <div style="background-color: olive">
-                                        <p:commandButton value="+" style="font-size: 200%" action="#{newFormController.addChoice(newQuestion)}" update="newAnswerScrollPanel" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}"/>
+                                    <div >
+                                        <p:commandButton value="+" style="font-size: 20px; font-weight: bold" action="#{newFormController.addChoice(newQuestion)}" update="newAnswerScrollPanel" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}"/>
                                         <p:dataList lazy="true" id="dataChoice" var="newChoice"  value="#{newFormController.choiceListFromQuestion(newQuestion)}" emptyMessage="Add a new choice for your question" type="definition" style="width:100%;" rendered="#{newFormController.checkRendered(newQuestion, 'answerMultiple')}">
-                                                                                                                    <!--does this work? does anything work? do i work?-->
-                                            <p:inputText style="width:99%;" placeholder="Type possible answer here" onchange="update= 'newAnswerScrollPanel'" value='#{newChoice.choice}'/>
+                                            <!--does this work? does anything work? do i work?-->
+                                            <p:inputText style="width:99%;" placeholder="Type possible answer here" onchange="update = 'newAnswerScrollPanel'" value='#{newChoice.choice}'/>
                                         </p:dataList>
 
                                     </div>  
@@ -97,18 +123,18 @@
                     <!--////////////////////////////////////////// NEW QUESTION SCROLL_PANEL AREA END /////////////////////////////////////////////////////////////-->
                 </div>
             </div>
-        
-        <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA END /////////////////////////////////////////////////////////////-->
+
+            <!--////////////////////////////////////////// FORM THAT HOLDS THE ADD QUESTION BUTTON AND THE NEW QUESTION AREA END /////////////////////////////////////////////////////////////-->
 
 
 
 
-        <!--////////////////////////////////////////// SAVE AND CANCEL BUTTON AREA /////////////////////////////////////////////////////////////-->
-        
-            <div style="background-color: purple">
+            <!--////////////////////////////////////////// SAVE AND CANCEL BUTTON AREA /////////////////////////////////////////////////////////////-->
+
+            <div >
 
                 <!--////////////////////////////////////////// CANCEL BUTTON  /////////////////////////////////////////////////////////////-->
-                <p:commandButton value="Cancel" action="#{newFormController.deleteForm()}" style="width:100px;height:5vh; font-size: xx-large; margin-left: 20%">
+                <p:commandButton value="Cancel" action="#{newFormController.deleteForm()}" style=" font-size: xx-large; margin-left: 20%">
                     <p:confirm header="Confirmation" message="Are you sure?" icon="pi pi-exclamation-triangle" />
                 </p:commandButton>
 
@@ -119,7 +145,7 @@
                 <!--////////////////////////////////////////// CANCEL BUTTON END  /////////////////////////////////////////////////////////////-->
 
                 <!--////////////////////////////////////////// SAVE BUTTON  /////////////////////////////////////////////////////////////-->
-                <p:commandButton styleClass='testingSomeShit' update="form" action="#{newFormController.saveButton()}" value="Save" style="width:100px;height:5vh; font-size: xx-large; margin-left: 40%" >
+                <p:commandButton styleClass='testingSomeShit' update="form" action="#{newFormController.saveButton()}" value="Save" style=" font-size: xx-large; margin-left: 30%" >
                     <p:confirm header="Confirmation" message="Finished editing? You will not be able to edit the form once it's saved." icon="pi pi-exclamation-triangle" />
                 </p:commandButton>
 
@@ -143,23 +169,30 @@
                             font-size: 30px;
                         }*/
 
-            .ui-button.regCommandButton { 
+            /*            .ui-button.regCommandButton { 
+            
+                            background: #29b6a0;
+                            color: #23a38f;
+            
+                            width: 100%; 
+                            height: 25px; 
+            
+                            font-family: 'pluto_sansthin';
+                            font-size:5em !important;  
+            
+            
+                        }
+            
+                        .testingSomeShit{
+                            font-size:20px ;  
+                        }*/
 
-                background: #29b6a0;
-                color: #23a38f;
-
-                width: 100%; 
-                height: 25px; 
-
-                font-family: 'pluto_sansthin';
-                font-size:5em !important;  
-
-
+/*            .ui-widget{
+                font-family: comic-sans;
             }
-
-            .testingSomeShit{
-                font-size:20px ;  
-            }
+            .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+                font-family: comic-sans;
+            }*/
 
 
 

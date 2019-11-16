@@ -41,6 +41,16 @@ public class newFormController {
     private List<Question> questionList = new ArrayList<>();
 
     private Form newForm;
+    
+    private Question testQuestion;
+
+    public Question getTestQuestion() {
+        return testQuestion;
+    }
+
+    public void setTestQuestion(Question testQuestion) {
+        this.testQuestion = testQuestion;
+    }
 
     //This is to call and use the same instance of the VerificationController class. Ask Santi for more info
     @ManagedProperty(value = "#{VerificationController}")
@@ -245,6 +255,7 @@ public class newFormController {
     public void saveButton() {
         this.getMyFormsController().setMessageToShow(1);//sets a certain variable from the myFormsController class to an int to show the success message on that page
         //this "for" gets every question and then looks into the question choices to update the titles on the db 
+        this.formController.update(this.getNewForm());
         for (Question q : newForm.getQuestionList()) {
             for (Choice c : q.getChoiceList()) 
             {
