@@ -6,9 +6,79 @@
     <h:head>
         <title>My Forms</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Títulos y parrafos</title>
     </h:head>
-    <h:body onload="#{myFormsController.showMessageOnLoad()}">
+    <!--////////////////////////////////////////// Background My Forms /////////////////////////////////////////////////////////////-->
+
+    <h:body 
+        onload="#{myFormsController.showMessageOnLoad()}"
+        style="text-align: center; background-color:goldenrod ">
         <p:growl id="messages" showDetail="true"/>
+        <!--////////////////////////////////////////// Background My Forms END/////////////////////////////////////////////////////////////-->
+
+
+        <!--////////////////////////////////////////// Button New And My Form /////////////////////////////////////////////////////////////-->
+        <h:form>
+            <p:commandButton value="New Form" action="#{VerificationController.redirect('newFormPage')}" style="width:100px;height:5vh; font-size: xx-large; margin-left: 20%">
+
+            </p:commandButton>
+            <p:commandButton value="My Forms" style="width:100px;height:5vh; font-size: xx-large; margin-left: 20%">
+
+            </p:commandButton>
+            <!--////////////////////////////////////////// Button New And My Form END /////////////////////////////////////////////////////////////-->
+       
+        <!--////////////////////////////////////////// Sign Out /////////////////////////////////////////////////////////////-->
+
+        <p:commandButton value="Sign Out" action="#{VerificationController.logOut()}" style="width:100px;height:5vh; font-size: xx-large; margin-left: 20% ">
+            
+        </p:commandButton>
+
+        <!--////////////////////////////////////////// Sing Out END /////////////////////////////////////////////////////////////-->
+
+
+        <!--////////////////////////////////////////// Name /////////////////////////////////////////////////////////////-->
         
-    </h:body>
+            <p:outputLabel  value="#{VerificationController.users.name}" > </p:outputLabel>
+        
+        <!--////////////////////////////////////////// Name END /////////////////////////////////////////////////////////////-->
+ </h:form>
+
+        
+        
+        <!--////////////////////////////////////////// Scroll Panel  /////////////////////////////////////////////////////////////-->
+        <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:99%;height:75vh;padding:5px 5px 5px 5px;margin:5% 5% 0% 0%;">
+           
+            
+            <h:form>
+
+
+                <!--////////////////////////////////////////// Button Menu /////////////////////////////////////////////////////////////-->
+                <p:dataList var="myForm"  value="#{VerificationController.users.formList}" emptyMessage="Form 1" type="definition" style="width:100%;">
+                    <p:panel id="newQuestionPanel" header="#{myForm.title}" closeSpeed="500" widgetVar="panel" style="height:300px; ">
+
+                        
+
+                        <button type="button" class="btn btn-secondary">View Form</button>
+                        <button type="button" class="btn btn-secondary">View Answer</button>
+                        <button type="button" class="btn btn-secondary">Get Link</button>
+                    </p:panel>
+                </p:dataList>
+                <!--////////////////////////////////////////// Button Menu END /////////////////////////////////////////////////////////////-->
+            </h:form>
+
+            <!--////////////////////////////////////////// Scroll Panel END /////////////////////////////////////////////////////////////-->
+        </p:scrollPanel>
+
+        <h:head>
+
+        </h:head>
+
+
+
+
+
+
+
+    </h:body> 
 </html>
+

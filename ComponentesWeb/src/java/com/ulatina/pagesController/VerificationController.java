@@ -12,6 +12,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
@@ -104,4 +105,35 @@ public class VerificationController implements Serializable {
         this.users = users;
     }
 
-}
+    public void logOut (){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .invalidateSession();
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+            this.redirect("index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+     /**
+     * redirects to the specified page
+     *
+     * @param page name of page as named in the project without the .xhtml
+     */
+    public void redirect(String page) {
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+            FacesContext
+                    .getCurrentInstance()
+                    .getExternalContext()
+                    .redirect(
+                            request.getContextPath()
+                            + "/faces/" + page + ".xhtml");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    }
+
