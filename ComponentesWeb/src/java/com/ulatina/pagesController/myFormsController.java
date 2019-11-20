@@ -24,13 +24,20 @@ import javax.faces.bean.ManagedProperty;
 
 @ManagedBean(name="myFormsController")
 @SessionScoped
+
 public class myFormsController {
     
     ViewFormAnswerController vFAC = new ViewFormAnswerController();
     
     //this variable is set to 0 each time the page gets reloaded (check last line of method "addMessage")
     private int messageToShow = 0;//this is used to determine wich message to show when loading the page
-
+    
+    /**
+     *
+     */ 
+    public final String HOSTPORT = "http://localhost:8061";
+    
+    
     public int getMessageToShow() {
         return messageToShow;
     }
@@ -103,4 +110,9 @@ public class myFormsController {
         }
         
     }
+    public String getViewFormLink(int formId){
+        return (HOSTPORT+"/ComponentesWeb/faces/newFormPage.xhtml?id="+formId);
+        
+    }
+    
 }

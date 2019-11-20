@@ -19,6 +19,7 @@ import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.primefaces.PrimeFaces;
 
 @ManagedBean(name = "VerificationController")
 @SessionScoped
@@ -73,15 +74,30 @@ public class VerificationController implements Serializable {
         users.setPassword(getPass());
         us.insert(users);
         if (users != null) {
-//            System.out.println(users.getName());
-//            FacesContext.getCurrentInstance()
-//                    .getExternalContext()
-//                    .addResponseCookie("name", users.getName(), null);
 
+            System.out.println(users.getName());
+           
             this.redirect("myFormsPage");
+
         } else {
             FacesContext.getCurrentInstance().addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid User"));
         }
+
+     
+    }
+
+    public void cancelar() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .invalidateSession();
+            HttpServletRequest request = (HttpServletRequest) FacesContext
+                    .getCurrentInstance().getExternalContext().getRequest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.redirect("index");
+
     }
 
     public void login() {
@@ -172,4 +188,10 @@ public class VerificationController implements Serializable {
         question.getChoiceList();
     }
 
+    public void reset() {
+        PrimeFaces.current().resetInputs("form:panel");
+    }
+
+    
+  
 }
