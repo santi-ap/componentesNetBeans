@@ -5,39 +5,114 @@
  */
 package com.ulatina.pagesController;
 
+import com.ulatina.controllers.Controller;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import com.ulatina.controllers.FormController;
+import com.ulatina.entity.Form;
+import com.ulatina.controllers.AnswerController;
+import com.ulatina.controllers.QuestionController;
+import com.ulatina.entity.Answer;
+import com.ulatina.entity.Choice;
+import com.ulatina.entity.Question;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
  * @author Asus
  */
-@ManagedBean(name="viewFormAnswerController")
+@ManagedBean(name = "viewFormAnswerController")
 @SessionScoped
 public class ViewFormAnswerController {
-    private int formId;
 
-    public int getFormId() 
-    {
+    private int formId;
+    private Form form;
+    private double percentage;
+
+    public double getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(double percentage) {
+        this.percentage = percentage;
+    }
+    private double numAns = 5;
+
+    public Form getForm() {
+        return form;
+    }
+
+    public ViewFormAnswerController() {
+    }
+
+    public void setForm(Form form) {
+        this.form = form;
+    }
+    Controller aController = new AnswerController();
+    Controller qController = new QuestionController();
+    Controller fController = new FormController();
+
+    public int getFormId() {
         return formId;
     }
 
-    public void setFormId(int formId) 
-    {
+    public void setFormId(int formId) {
         this.formId = formId;
     }
-    
+
     /**
-     *  this method takes the info sent through the URL
-     *  and sets it to the local variable formId
+     * this method takes the info sent through the URL and sets it to the local
+     * variable formId
      */
-    public void init()
-    {
+    public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
-        Map<String, String> paramMap=context.getExternalContext().getRequestParameterMap();
+        Map<String, String> paramMap = context.getExternalContext().getRequestParameterMap();
         String projectId = paramMap.get("id");
         this.setFormId(Integer.parseInt(projectId));
+        System.out.println(" test");
+        System.out.println(this.form.getTitle());
     }
+
+     /**
+     * this method takes a question and it goes through the answers and calculates the percentages of the results int he case of mult o single choice
+     * 
+     */
+    public Set<String> generateResults(Question q) {
+        Set<String> resultList = new HashSet<>();
+
+        if (q.getType().getId() == 1 || q.getType().getId() == 2) {
+        for (Choice c : q.getChoiceList()) {
+
+            
+                double amountOfAnswers = 0;
+                String result;
+
+                for (Answer a : q.getAnswerList()) {
+                    if (a.getChoice().getId() == c.getId()) {
+                        amountOfAnswers = amountOfAnswers + 1;
+                    }
+                }
+
+                this.percentage = ((amountOfAnswers / this.numAns) * 100);
+                result = c.getChoice() + ": " + this.percentage + "%";
+                resultList.add(result);
+
+            } 
+        }else { 
+               
+                    for (Answer a: q.getAnswerList()){
+                        resultList.add(a.getAnswer());
+                    }
+                    
+                
+            }
+        
+        return resultList;
+    }
+
 }
