@@ -8,29 +8,61 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-   
+
     <h:head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <script>
+            $(document).ready(function () {
+                $(".btn1").click(function () {
+                    if ($(".answersList").is(":visible")) {
+                        $(".answersList").hide();
+                        $(".test").show();
+
+                    } else {
+                        $(".answersList").show();
+                        $(".test").hide();
+                    }
+                });
+
+
+            });
+        </script>
+
+        <script>
+            function starter() {
+                $(".test").hide();
+                $("#{viewFormAnswerController.init()}")
+            }
+        </script>
+
     </h:head>
-    <body onload="#{viewFormAnswerController.init()}">
-        <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
-        <p:outputLabel value="#{viewFormAnswerController.form.title}"/>
-        <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
 
-        <p:inputSwitch value ="#{viewFormAnswerController.showTable}" valueChangeListener="#{viewFormAnswerController.enableTable()}"
-                       
-                       
-        <p:dataList var="question" id="tabla" value="#{viewFormAnswerController.form.questionList}" emptyMessage="Questions" type="definition" style="width:100%;">
-            <p:outputLabel  value="#{question.question}" />
+    <body onload="starter()">
+        <h:form>
+            <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
+            <p:outputLabel value="#{viewFormAnswerController.form.title}"/>
+            <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
 
-            <p:dataList var="choice"  value="#{viewFormAnswerController.generateResults(question)}"  type="definition" style="width:100%;">
-                <p:outputLabel  value="#{choice}" />
+            <p:inputSwitch class="btn1" /> 
+
+            <p:dataList var="question" id="tabla" class="answersList" value="#{viewFormAnswerController.form.questionList}" emptyMessage="Questions" type="definition" style="width:100%;">
+                <p:outputLabel  value="#{question.question}" />
+
+                <p:dataList var="choice"  value="#{viewFormAnswerController.generateResults(question)}"  type="definition" style="width:100%;">
+                    <p:outputLabel  value="#{choice}" />
+                </p:dataList>
+
             </p:dataList>
 
-        </p:dataList>
+            <p:panel class="test" id="testing">
+
+                alexisforchiney
 
 
 
-    </body>
-</html>
+            </p:panel>
+            </h:form>
+                </body>
+                </html>

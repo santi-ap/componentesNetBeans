@@ -55,6 +55,15 @@ public class ViewFormAnswerController {
     public void setForm(Form form) {
         this.form = form;
     }
+    
+        public int getFormId() {
+        return formId;
+    }
+
+    public void setFormId(int formId) {
+        this.formId = formId;
+    }
+    
     Controller aController = new AnswerController();
     Controller qController = new QuestionController();
     Controller fController = new FormController();
@@ -72,19 +81,7 @@ public class ViewFormAnswerController {
         System.out.println(this.form.getTitle());
     }
 
-<<<<<<< HEAD
-  
 
-    public int getFormId() {
-        return formId;
-    }
-
-    public void setFormId(int formId) {
-        this.formId = formId;
-    }
-
-=======
->>>>>>> origin/master
     /**
      * this method takes a question and it goes through the answers and
      * calculates the percentages of the results int he case of mult o single
@@ -94,11 +91,9 @@ public class ViewFormAnswerController {
     public Set<String> generateResults(Question q) { // gets the from from myFormsController
         Set<String> resultList = new HashSet<>();
 
-<<<<<<< HEAD
-        if (q.getType().getId() == 1 || q.getType().getId() == 2) {
-=======
+
         if (q.getType().getId() == 1 || q.getType().getId() == 2) { // if the question type is multiple choice or single choice it does the stuff to calculate the percentages
->>>>>>> origin/master
+
             for (Choice c : q.getChoiceList()) {
 
                 double amountOfAnswers = 0;
@@ -117,14 +112,6 @@ public class ViewFormAnswerController {
                     result = c.getChoice() + ": " + this.percentage + "%";
                     resultList.add(result);
                 }
-<<<<<<< HEAD
-
-                this.percentage = ((amountOfAnswers / this.numAns) * 100);
-                result = c.getChoice() + ": " + this.percentage + "%";
-                resultList.add(result);
-
-=======
->>>>>>> origin/master
             }
         } else {
 
