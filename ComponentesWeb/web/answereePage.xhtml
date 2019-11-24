@@ -23,9 +23,9 @@
                     <p:dataList  id="MultipleChoice" var="MultQuestion" value="#{AnswereeController.multQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
 
                         <p:panel header="#{MultQuestion.getqQuestion().question}">
-                            <p:selectOneRadio id="selectManyCheckbox" value="#{MultQuestion.getqQuestion().answerList}" columns="1" layout="responsive">
+                            <p:selectManyCheckbox id="selectManyCheckbox" value="#{MultQuestion.questAnswerList}" columns="1" layout="responsive">
                                 <f:selectItems value="#{AnswereeController.returnChoiceList(MultQuestion.getqQuestion())}" var="choice" itemLabel="#{choice.choice}" itemValue="#{choice.choice}" />
-                            </p:selectOneRadio>
+                            </p:selectManyCheckbox>
                         </p:panel>
                     </p:dataList>
                     <!--////////////////////////////////////////// MULT CHOICE QUESTION AREA END /////////////////////////////////////////////////////////////-->

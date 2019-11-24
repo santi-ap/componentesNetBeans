@@ -7,6 +7,7 @@ package com.ulatina.santiTests;
 
 import com.ulatina.entity.Question;
 import java.util.Date;
+import java.util.Set;
 
 /**
  *
@@ -16,6 +17,15 @@ public class Quest {
     private Question qQuestion;
     private String questAnswer;
     private Date dateAnswer;
+    private Set<String> questAnswerList;
+
+    public Set<String> getQuestAnswerList() {
+        return questAnswerList;
+    }
+
+    public void setQuestAnswerList(Set<String> questAnswerList) {
+        this.questAnswerList = questAnswerList;
+    }
 
     public Date getDateAnswer() {
         return dateAnswer;

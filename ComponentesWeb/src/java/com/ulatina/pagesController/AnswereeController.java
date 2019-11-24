@@ -43,17 +43,18 @@ public class AnswereeController implements Serializable {
     private String formId;//used to save the form ID taken from the URL
     private Form form;//the current form that's beeing answered. Found using the formID variable above
     private int anonymousId;//the new anonymousID that will be linked to the answers of the current form
-    
+
     /**
-     * these are a set(list) of type Quest(a new object Santi created to help view the questions and save the answers)
-     * there is one set for every type of question
-     * the Quest object has a Question(type Question) attribute, a questAnswer(type String) attribute and a dateAnswer(type Date) attribute
+     * these are a set(list) of type Quest(a new object Santi created to help
+     * view the questions and save the answers) there is one set for every type
+     * of question the Quest object has a Question(type Question) attribute, a
+     * questAnswer(type String) attribute and a dateAnswer(type Date) attribute
      */
     private Set<Quest> multQuestionSet;
     private Set<Quest> singleQuestionSet;
     private Set<Quest> textQuestionSet;
     private Set<Quest> dateQuestionSet;
-    
+
     private Answer newAnswer;//Answer type variable that will be used to save a new answer in every question
 
     public int getAnonymousId() {
@@ -91,7 +92,7 @@ public class AnswereeController implements Serializable {
     public Set<Quest> getSingleQuestionSet() {
         return singleQuestionSet;
     }
-    
+
     public void setSingleQuestionSet(Set<Quest> singleQuestionSet) {
         this.singleQuestionSet = singleQuestionSet;
     }
@@ -133,7 +134,7 @@ public class AnswereeController implements Serializable {
             }
         }
     }
-    
+
     /**
      * instantiates a new list of type Quest with only type Single Questions
      */
@@ -147,7 +148,7 @@ public class AnswereeController implements Serializable {
             }
         }
     }
-    
+
     /**
      * instantiates a new list of type Quest with only type Text Questions
      */
@@ -161,7 +162,7 @@ public class AnswereeController implements Serializable {
             }
         }
     }
-    
+
     /**
      * instantiates a new list of type Quest with only type Date Questions
      */
@@ -175,7 +176,6 @@ public class AnswereeController implements Serializable {
             }
         }
     }
-
 
     /**
      * first method to be executed in this class
@@ -197,13 +197,14 @@ public class AnswereeController implements Serializable {
 
     /**
      * will return the list of choice from the given question
+     *
      * @param question the question which we want the choice list from
      * @return the list of choices from the given method
      */
     public Set<Choice> returnChoiceList(Question question) {
         return question.getChoiceList();
     }
-    
+
     /**
      * just for testing button presses
      */
@@ -261,6 +262,7 @@ public class AnswereeController implements Serializable {
 
     /**
      * turns the date from the date answer into a String
+     *
      * @param quest takes in the Quest with the date answer
      * @return a String with the date in the format dd/mm/yyyy
      */
@@ -270,7 +272,7 @@ public class AnswereeController implements Serializable {
         String year = String.valueOf(quest.getDateAnswer().getYear() + 1900);
         return (day + "/" + month + "/" + year);
     }
-    
+
     /**
      * submits the Single answers to the DB
      */
@@ -296,16 +298,46 @@ public class AnswereeController implements Serializable {
     }
 
     /**
-     * saves all the type answers to the DB
-     * gets executed when the submit button gets pressed
+     * submits the Multiple answers to the DB
+     */
+    public void submitMultipleAnswer() {
+        int answerId = this.answerService.SelectMaxId();//looks for the MAX id for the answers and sets it to the variable
+        Answer newAnswer = new Answer();//creates a new Answer
+
+        for (Quest quest : this.getMultQuestionSet()) {//for every quest in the list
+            if (quest.getQuestAnswerList().isEmpty() || quest.getQuestAnswerList() == null) {//if the answer list isn't null or empty
+                System.out.println("Not saving empty single answer");
+            } else {//if it's not null or empty
+                for (String questAnswer : quest.getQuestAnswerList()) {//goes through every text answer of the mult choice question
+                    answerId++;//adds 1 to the answer ID
+                    newAnswer = new Answer();//creates a new Answer
+                    newAnswer.setId(answerId);//sets the ID to the new Anser
+                    newAnswer.setAnonymous_id(this.getAnonymousId());//sets the anonymous ID to the new Answer
+                    newAnswer.setAnswer(questAnswer);//sets the actual answer(type String) to the new new Answer
+                    newAnswer.setQuestion(quest.getqQuestion());//links the question to the new Answer
+                    quest.getqQuestion().getAnswerList().add(newAnswer);//adds the new Answer to the list of Answers of the Question
+                    System.out.println("Multiple Question: " + quest.getqQuestion().getQuestion() + " Multiple Answer: " + newAnswer.getAnswer());//print for testing
+                    this.answerController.insert(newAnswer);//saves the new Answer into the DB
+                }
+
+            }
+        }
+        System.out.println("Done submitting multiple answers");
+    }
+
+    /**
+     * saves all the type answers to the DB gets executed when the submit button
+     * gets pressed
      */
     public void submitAllAnswers() {
-//        this.submitTextAnswers();
-//
-//        this.submitDateAnswers();
-//
-//        this.submitSingleAnswer();
-        
+        this.submitTextAnswers();
+
+        this.submitDateAnswers();
+
+        this.submitSingleAnswer();
+
+        this.submitMultipleAnswer();
+
         System.out.println("Done submitting all answers");
     }
 
@@ -322,8 +354,8 @@ public class AnswereeController implements Serializable {
     }
 
     /**
-     * resets the values of the Quest lists
-     * gets executed when the cancel button gets pressed
+     * resets the values of the Quest lists gets executed when the cancel button
+     * gets pressed
      */
     public void cancelButton() {
         this.setMultQuestionSet(null);
