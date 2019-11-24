@@ -12,16 +12,21 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import com.ulatina.controllers.Controller;
+import com.ulatina.pagesController.ViewFormAnswerController;
+import javax.faces.bean.ManagedProperty;
 
 /**
  *
  * @author santialfonso
  */
-@ManagedBean(name = "myFormsController")
+
+@ManagedBean(name="myFormsController")
 @SessionScoped
 
 public class myFormsController {
-
+    ViewFormAnswerController vFAC = new ViewFormAnswerController();
+    
     //this variable is set to 0 each time the page gets reloaded (check last line of method "addMessage")
     private int messageToShow = 0;//this is used to determine wich message to show when loading the page
 
@@ -59,6 +64,18 @@ public class myFormsController {
         this.messageToShow = messageToShow;
     }
 
+    public ViewFormAnswerController getViewFormAnswerController() {
+        return viewFormAnswerController;
+    }
+
+    public void setViewFormAnswerController(ViewFormAnswerController viewFormAnswerController) {
+        this.viewFormAnswerController = viewFormAnswerController;
+    }
+
+    
+   @ManagedProperty(value = "#{viewFormAnswerController}")
+    private ViewFormAnswerController viewFormAnswerController;
+    
     /**
      * if messageToShow variable, I will call the method to display the right
      * message depending on what's needed
@@ -96,8 +113,13 @@ public class myFormsController {
      *
      * @param formId the form id that you want to show to the user
      */
-    public void redirectToFormAnswer(int formId) {
-        try {
+    public void redirectToFormAnswer (Form form)
+    {
+        
+        this.viewFormAnswerController.setForm(form);
+        System.out.println("tes1" +form.getTitle());
+        try
+        {
             HttpServletRequest request = (HttpServletRequest) FacesContext
                     .getCurrentInstance().getExternalContext().getRequest();
             FacesContext
@@ -105,7 +127,7 @@ public class myFormsController {
                     .getExternalContext()
                     .redirect(
                             request.getContextPath()
-                            + "/faces/viewFormAnswerPage.xhtml?id=" + formId);
+                            + "/faces/viewFormAnswerPage.xhtml?id=" + form.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
