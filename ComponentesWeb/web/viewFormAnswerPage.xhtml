@@ -46,6 +46,8 @@ and open the template in the editor.
             <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
 
             <p:inputSwitch class="btn1" /> 
+            <div></div> 
+            <p:outputLabel value="#{answerService.getNumOfAnswerees(viewFormAnswerController.formId)}  people have answered this form" />
 
             <p:dataList var="question" id="tabla" class="answersList" value="#{viewFormAnswerController.form.questionList}" emptyMessage="Questions" type="definition" style="width:100%;">
                 <p:outputLabel  value="#{question.question}" />

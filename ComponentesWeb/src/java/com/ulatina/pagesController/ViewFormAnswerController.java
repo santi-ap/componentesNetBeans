@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.ulatina.services.AnswerService;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -67,6 +69,9 @@ public class ViewFormAnswerController {
     Controller aController = new AnswerController();
     Controller qController = new QuestionController();
     Controller fController = new FormController();
+    AnswerService AnsService = new AnswerService();
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
+    
 
     /**
      * this method takes the info sent through the URL and sets it to the local
@@ -107,9 +112,9 @@ public class ViewFormAnswerController {
                             amountOfAnswers = amountOfAnswers + 1;
                         }
                     }
-
-                    this.percentage = ((amountOfAnswers / this.numAns) * 100);
-                    result = c.getChoice() + ": " + this.percentage + "%";
+                    System.out.println(formId);
+                    this.percentage = ((amountOfAnswers / this.AnsService.getNumOfAnswerees(formId)) * 100);
+                    result = c.getChoice() + ": " + df2.format(this.percentage) + "%";
                     resultList.add(result);
                 }
             }
