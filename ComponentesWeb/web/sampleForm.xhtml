@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <body>
+        <h:body style="background-color: background">
+
+        <h:form id="answerForm">
+            <div class="ui-g" style=" display: flex; align-items: center; justify-content: center; margin-top: 2%">
+                <p:outputLabel value="#{SampleFormController.form.title}" style="font-size: 40px; font-weight: bolder; left: 45%; color: white "/>
+            </div>
+            <div class="ui-g"  >
+             <!--////////////////////////////////////////// BACK BUTTON AREA /////////////////////////////////////////////////////////////-->
+            
+                <div class="ui-g-12 ui-md-2 ui-lg-1" >
+                    <!--////////////////////////////////////////// CANCEL BUTTON  /////////////////////////////////////////////////////////////-->
+                    <p:commandButton value="Back" action="#{newFormController.redirect('myFormsPage')}" style=" font-size: xx-large;" />
+                        
+                    <!--////////////////////////////////////////// CANCEL BUTTON END  /////////////////////////////////////////////////////////////-->
+                </div>
+           
+            <!--////////////////////////////////////////// BACK BUTTON AREA END /////////////////////////////////////////////////////////////-->
+
+            <div class="ui-g-12 ui-md-10 ui-lg-11" style=" display: flex; align-items: center; justify-content: center;">
+                <!--////////////////////////////////////////// ANSWER QUESTION SCROLL_PANEL AREA /////////////////////////////////////////////////////////////-->
+                <p:scrollPanel id="QuestionScrollPanel" mode="native" style="width:90%;height:85vh;padding:5px 5px 5px 5px;">
+                    <!--////////////////////////////////////////// MULT CHOICE QUESTION AREA /////////////////////////////////////////////////////////////-->
+
+                    <p:dataList  id="MultipleChoice" var="MultQuestion" value="#{SampleFormController.multQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+
+                        <p:panel header="#{MultQuestion.getqQuestion().question}">
+                            <p:selectManyCheckbox id="selectManyCheckbox" columns="1" layout="responsive">
+                                <f:selectItems value="#{SampleFormController.returnChoiceList(MultQuestion.getqQuestion())}" var="choice" itemLabel="#{choice.choice}" itemValue="#{choice.choice}" />
+                            </p:selectManyCheckbox>
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// MULT CHOICE QUESTION AREA END /////////////////////////////////////////////////////////////-->
+
+                    <!--////////////////////////////////////////// SINGLE CHOICE QUESTION AREA /////////////////////////////////////////////////////////////-->
+                    <p:dataList id="SingleChoice" var="SingleQuestion"  value="#{SampleFormController.singleQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+                        <p:panel header="#{SingleQuestion.getqQuestion().question}">
+                            <p:selectOneRadio id="selectOneRadio"  layout="responsive" columns="1">
+                                <f:selectItems value="#{SampleFormController.returnChoiceList(SingleQuestion.getqQuestion())}" var="choiceSingle" itemLabel="#{choiceSingle.choice}" itemValue="#{choiceSingle.choice}" />
+                            </p:selectOneRadio>
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// SINGLE CHOICE QUESTION AREA END /////////////////////////////////////////////////////////////-->
+                    <!--////////////////////////////////////////// TEXT QUESTION AREA /////////////////////////////////////////////////////////////-->
+                    <p:dataList id="TextAnswer" var="TextQuestion"  value="#{SampleFormController.textQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+                        <p:panel header="#{TextQuestion.getqQuestion().question}">
+                            <p:inputText id="answerText" placeholder="Write answer here" style ="height:17vh;width:99%" />
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// TEXT QUESTION AREA END /////////////////////////////////////////////////////////////-->
+                    <!--////////////////////////////////////////// DATE QUESTION AREA /////////////////////////////////////////////////////////////-->
+                    <p:dataList id="DateAnswer" var="DateQuestion"  value="#{SampleFormController.dateQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+                        <p:panel header="#{DateQuestion.getqQuestion().question}">
+                            <p:outputLabel for="datePicker" value="Date: " />
+                            <p:datePicker id="datePicker" showIcon="true" style="margin: 1% 10% 0% 0%;"/>
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// DATE QUESTION AREA END /////////////////////////////////////////////////////////////-->
+
+                </p:scrollPanel>
+                <!--////////////////////////////////////////// ANSWER QUESTION SCROLL_PANEL AREA END /////////////////////////////////////////////////////////////-->
+            </div>
+ </div>
+           
+        </h:form>
+
+        <style>
+            .ui-button-text-icon-left .ui-button-text{
+                padding: .3em 1em .3em 1em;
+            }
+        </style>
+
+    </h:body>
+    </body>
+</html>

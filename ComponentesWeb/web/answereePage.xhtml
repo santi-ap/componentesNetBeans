@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Answer form</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body onload="#{AnswereeController.init()}" style="background-color: background">
+
+        <h:form id="answerForm">
+            <div class="ui-g" style=" display: flex; align-items: center; justify-content: center; margin-top: 2%">
+                <p:outputLabel value="#{AnswereeController.form.title}" style="font-size: 40px; font-weight: bolder; left: 45%; color: white "/>
+            </div>
+
+            <div class="ui-g" style=" display: flex; align-items: center; justify-content: center;">
+                <!--////////////////////////////////////////// ANSWER QUESTION SCROLL_PANEL AREA /////////////////////////////////////////////////////////////-->
+                <p:scrollPanel id="QuestionScrollPanel" mode="native" style="width:90%;height:85vh;padding:5px 5px 5px 5px;">
+                    <!--////////////////////////////////////////// MULT CHOICE QUESTION AREA /////////////////////////////////////////////////////////////-->
+
+                    <p:dataList  id="MultipleChoice" var="MultQuestion" value="#{AnswereeController.multQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+
+                        <p:panel header="#{MultQuestion.getqQuestion().question}">
+                            <p:selectOneRadio id="selectManyCheckbox" value="#{MultQuestion.getqQuestion().answerList}" columns="1" layout="responsive">
+                                <f:selectItems value="#{AnswereeController.returnChoiceList(MultQuestion.getqQuestion())}" var="choice" itemLabel="#{choice.choice}" itemValue="#{choice.choice}" />
+                            </p:selectOneRadio>
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// MULT CHOICE QUESTION AREA END /////////////////////////////////////////////////////////////-->
+
+                    <!--////////////////////////////////////////// SINGLE CHOICE QUESTION AREA /////////////////////////////////////////////////////////////-->
+                    <p:dataList id="SingleChoice" var="SingleQuestion"  value="#{AnswereeController.singleQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+                        <p:panel header="#{SingleQuestion.getqQuestion().question}">
+                            <p:selectOneRadio id="selectOneRadio" value="#{SingleQuestion.questAnswer}" layout="responsive" columns="1">
+                                <f:selectItems value="#{AnswereeController.returnChoiceList(SingleQuestion.getqQuestion())}" var="choiceSingle" itemLabel="#{choiceSingle.choice}" itemValue="#{choiceSingle.choice}" />
+                            </p:selectOneRadio>
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// SINGLE CHOICE QUESTION AREA END /////////////////////////////////////////////////////////////-->
+                    <!--////////////////////////////////////////// TEXT QUESTION AREA /////////////////////////////////////////////////////////////-->
+                    <p:dataList id="TextAnswer" var="TextQuestion"  value="#{AnswereeController.textQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+                        <p:panel header="#{TextQuestion.getqQuestion().question}">
+                            <p:inputText id="answerText" placeholder="Write answer here" value="#{TextQuestion.questAnswer}" style ="height:17vh;width:99%" />
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// TEXT QUESTION AREA END /////////////////////////////////////////////////////////////-->
+                    <!--////////////////////////////////////////// DATE QUESTION AREA /////////////////////////////////////////////////////////////-->
+                    <p:dataList id="DateAnswer" var="DateQuestion"  value="#{AnswereeController.dateQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+                        <p:panel header="#{DateQuestion.getqQuestion().question}">
+                            <p:outputLabel for="datePicker" value="Date: " />
+                            <p:datePicker id="datePicker" showIcon="true" value="#{DateQuestion.dateAnswer}" style="margin: 1% 10% 0% 0%;"/>
+                        </p:panel>
+                    </p:dataList>
+                    <!--////////////////////////////////////////// DATE QUESTION AREA END /////////////////////////////////////////////////////////////-->
+
+                </p:scrollPanel>
+                <!--////////////////////////////////////////// ANSWER QUESTION SCROLL_PANEL AREA END /////////////////////////////////////////////////////////////-->
+            </div>
+
+            <!--////////////////////////////////////////// SUBMIT AND CANCEL BUTTON AREA /////////////////////////////////////////////////////////////-->
+            <div class="ui-g" >
+                <div class="ui-g-12 md-6 ui-lg-6" style=" display: flex; align-items: center; justify-content: center;">
+                    <!--////////////////////////////////////////// CANCEL BUTTON  /////////////////////////////////////////////////////////////-->
+                    <p:commandButton value="Cancel"  style=" font-size: xx-large;" action="#{AnswereeController.cancelButton()}" onclick="PF('dlg2').show();" update="answerForm">
+                        <p:confirm header="Confirmation" message="Are you sure you want to cancel?" icon="pi pi-exclamation-triangle" />
+
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog> 
+                    <p:dialog header="Submission has been cancelled" widgetVar="dlg2" modal="true" height="100" draggable="false" resizable="false" closable="false" closeOnEscape="false">
+                        <h:outputText value="You have cancelled your form submission. Your answers have not been saved.  You may close this tab." />
+                    </p:dialog>   
+                    <!--////////////////////////////////////////// CANCEL BUTTON END  /////////////////////////////////////////////////////////////-->
+                </div>
+
+                <div class="ui-g-12 md-6 ui-lg-6" style=" display: flex; align-items: center; justify-content: center;">
+                    <!--////////////////////////////////////////// SUBMIT BUTTON  /////////////////////////////////////////////////////////////-->
+                    <p:commandButton   value="Submit" style=" font-size: xx-large;" action="#{AnswereeController.submitAllAnswers()}" onclick="PF('formSaved').show();">
+                        <p:confirm header="Confirmation" message="Are you sure you want to submit your answers? You will not be able to edit your answers once submitted." icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="400px">
+                        <div class="ui-g" style="align-content: center">
+                            <div class="ui-g-6" style=" padding-left: 60px">
+                                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" style="padding-left: 0px"/>
+                            </div>
+                            <div class="ui-g-6" style=" padding-left: 60px">
+                                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" style="padding-left: 0px" />
+                            </div>
+                        </div>
+                    </p:confirmDialog> 
+                    <p:dialog header="Submission has been cancelled" widgetVar="formSaved" modal="true" height="100" draggable="false" resizable="false" closable="false" closeOnEscape="false">
+                        <h:outputText value="You have successfully submitted your answers. You may close this tab." />
+                    </p:dialog>  
+                    <!--////////////////////////////////////////// SUBMIT BUTTON END /////////////////////////////////////////////////////////////-->
+                </div>
+            </div>
+            <!--////////////////////////////////////////// SUBMIT AND CANCEL BUTTON AREA END /////////////////////////////////////////////////////////////-->
+        </h:form>
+
+        <style>
+            .ui-button-text-icon-left .ui-button-text{
+                padding: .3em 1em .3em 1em;
+            }
+        </style>
+
+    </h:body>
+</html>
