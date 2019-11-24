@@ -15,8 +15,22 @@ and open the template in the editor.
     </h:head>
     <body onload="#{viewFormAnswerController.init()}">
         <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
-        <p:outputLabel value="#{viewFormAnswerController.formId}"/>
+        <p:outputLabel value="#{viewFormAnswerController.form.title}"/>
         <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
-      
+
+        <p:inputSwitch value ="#{viewFormAnswerController.showTable}" valueChangeListener="#{viewFormAnswerController.enableTable()}"
+                       
+                       
+        <p:dataList var="question" id="tabla" value="#{viewFormAnswerController.form.questionList}" emptyMessage="Questions" type="definition" style="width:100%;">
+            <p:outputLabel  value="#{question.question}" />
+
+            <p:dataList var="choice"  value="#{viewFormAnswerController.generateResults(question)}"  type="definition" style="width:100%;">
+                <p:outputLabel  value="#{choice}" />
+            </p:dataList>
+
+        </p:dataList>
+
+
+
     </body>
 </html>

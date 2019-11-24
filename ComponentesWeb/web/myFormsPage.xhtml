@@ -80,6 +80,7 @@
                 <!--////////////////////////////////////////// Scroll Panel  /////////////////////////////////////////////////////////////-->
                 <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:70%;height:80vh;padding:5px 5px 5px 5px; margin-left: 15%;">
                     <!--////////////////////////////////////////// Button Menu /////////////////////////////////////////////////////////////-->
+                    
                     <p:dataList var="myForm"  value="#{VerificationController.users.formList}" emptyMessage="Create a new Form to see it here" type="definition" style="width:100%;">
                         <p:panel id="newQuestionPanel" header="#{myForm.title}" closeSpeed="500" widgetVar="panel" style="height: fit-content; font-size: 25px; border: solid #23a38f">
 
@@ -90,7 +91,7 @@
                                 </div>
 
                                 <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="View Answer"  action="#{myFormsController.redirectToFormAnswer(myForm.id)}"/>
+                                    <p:commandButton value="View Answer"  action="#{myFormsController.redirectToFormAnswer(myForm)}"/>
                                 </div>
 
                                 <div class="ui-g-4 ui-md-4 ui-lg-4" >
