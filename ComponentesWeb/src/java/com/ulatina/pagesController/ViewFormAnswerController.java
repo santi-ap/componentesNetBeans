@@ -72,6 +72,7 @@ public class ViewFormAnswerController {
         System.out.println(this.form.getTitle());
     }
 
+<<<<<<< HEAD
   
 
     public int getFormId() {
@@ -82,31 +83,48 @@ public class ViewFormAnswerController {
         this.formId = formId;
     }
 
+=======
+>>>>>>> origin/master
     /**
      * this method takes a question and it goes through the answers and
      * calculates the percentages of the results int he case of mult o single
      * choice
      *
      */
-    public Set<String> generateResults(Question q) {
+    public Set<String> generateResults(Question q) { // gets the from from myFormsController
         Set<String> resultList = new HashSet<>();
 
+<<<<<<< HEAD
         if (q.getType().getId() == 1 || q.getType().getId() == 2) {
+=======
+        if (q.getType().getId() == 1 || q.getType().getId() == 2) { // if the question type is multiple choice or single choice it does the stuff to calculate the percentages
+>>>>>>> origin/master
             for (Choice c : q.getChoiceList()) {
 
                 double amountOfAnswers = 0;
                 String result;
 
-                for (Answer a : q.getAnswerList()) {
-                    if (a.getChoice().getId() == c.getId()) {
-                        amountOfAnswers = amountOfAnswers + 1;
+                if (q.getAnswerList().size()==0) {
+                    resultList.add("No Answers");
+                } else {
+                    for (Answer a : q.getAnswerList()) {  // calculates how many people chose a certain asnwer
+                        if (a.getChoice().getId() == c.getId()) {
+                            amountOfAnswers = amountOfAnswers + 1;
+                        }
                     }
+
+                    this.percentage = ((amountOfAnswers / this.numAns) * 100);
+                    result = c.getChoice() + ": " + this.percentage + "%";
+                    resultList.add(result);
                 }
+<<<<<<< HEAD
 
                 this.percentage = ((amountOfAnswers / this.numAns) * 100);
                 result = c.getChoice() + ": " + this.percentage + "%";
                 resultList.add(result);
 
+=======
+>>>>>>> origin/master
             }
         } else {
 
