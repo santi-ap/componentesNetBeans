@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
@@ -17,36 +16,6 @@
         <p:growl id="messages" showDetail="true"/>
 
         <h:form>
-
-
-
-            <!--Button To share link-->
-            <p:commandButton value="Share" onclick="PF('wdialog').show();"/>
-
-
-
-            <p:dialog  id="dialog" widgetVar="wdialog" header="FormURL" modal="true" appendTo="@(body)" responsive="true" resizable="false"  >
-
-                <input type="text" value="#{myFormsController.getViewFormLink(2)}" id="myInput"/>
-
-                <button onclick="myFunction()">Copy text</button>
-            </p:dialog>  
-
-            <script>
-                function myFunction() {
-                    var copyText = document.getElementById("myInput");
-                    copyText.select();
-                    copyText.setSelectionRange(0, 99999);
-                    document.execCommand("copy");
-                    alert("Copied the text: " + copyText.value);
-                }
-
-            </script>
-
-
-
-
-
 
             <!--////////////////////////////////////////// Button New And My Form /////////////////////////////////////////////////////////////-->
 
@@ -87,7 +56,7 @@
 
                             <div class="ui-g" style=" font-size: 20px">
                                 <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="View Form" />
+                                    <p:commandButton value="View Form" action="#{myFormsController.redirectToSampleForm(myForm)}"/>
                                 </div>
 
                                 <div class="ui-g-4 ui-md-4 ui-lg-4" >
@@ -95,7 +64,9 @@
                                 </div>
 
                                 <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="Get Link" />
+                                    <p:commandButton value="Get Link" action="#{myFormsController.generateViewFormURL(myForm.id)}" update="@form" onclick="PF('wdialog').show();" />
+
+
                                 </div>
                             </div>
                         </p:panel>
@@ -105,6 +76,15 @@
 
                     <!--////////////////////////////////////////// Scroll Panel END /////////////////////////////////////////////////////////////-->
                 </p:scrollPanel>
+
+                <p:dialog  id="dialog" widgetVar="wdialog" header="FormURL" modal="true" appendTo="@(newQuestionPanel)" 
+                           responsive="true" resizable="false" style="width: 800px" draggable="false" width="800px" visible="true">
+
+                    <input type="text" value="#{myFormsController.getViewFormLink()}" id="myInput" style="width: 90%"/>
+
+                    <p:button onclick="myFunction()" value="Copy to Clipboard"/>
+                </p:dialog>  
+                
             </div>
         </h:form>
 
@@ -123,9 +103,16 @@
                 transform: translateY(-50%);
             }
         </style>
-        
+
         <script>
-            document.getElementById("newQuestionScrollPanel").
+            //function to copy to clipboard
+            function myFunction() {
+                var copyText = document.getElementById("myInput");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+                alert("Copied the text: " + copyText.value);
+            }
         </script>
     </h:body> 
 

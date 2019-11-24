@@ -2,82 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-        <h:head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(".btn1").click(function () {
-                    if ($(".alexis").is(":visible")) {
-                        $(".alexis").hide();
-                        $(".test").show();
-                        
-                    } else {
-                        $(".alexis").show();
-                        $(".test").hide();
-                    }
-                });
-               
-
-            });
-        </script>
-        
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
     </h:head>
- <body  onload="hideOnLoadFunction()">
 
-        <h:form  id="myForm"> 
-       
+    <body  onload="hideOnLoadFunction()">
 
-
-
-
-
-      <p:dataList var="myForm" class="alexis"  value="#{VerificationController.users.formList}" emptyMessage="Create a new Form to see it here" type="definition" style="width:100%;">
-                        <p:panel id="newQuestionPanel" header="#{myForm.title}" closeSpeed="500" widgetVar="panel" style="height: fit-content; font-size: 25px; border: solid #23a38f">
-
-
-                            <div class="ui-g" style=" font-size: 20px">
-                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="View Form" />
-                                </div>
-
-                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="View Answer"  action="#{myFormsController.redirectToFormAnswer(myForm)}"/>
-                                </div>
-
-                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="Get Link" />
-                                </div>
-                            </div>
-                        </p:panel>
-                    </p:dataList>
-                    
-
-       
-
-
-
-            <p:panel class="test" id="testing">
-                
-                alexisforchiney
-                
-                
-                
-            </p:panel>
-
-
-        <p:inputSwitch class="btn1" />
-
-
-        </h:form>
-        <script>
-            
-            function hideOnLoadFunction(){
-                
-                  $(".test").hide();
-            }
-            
-            </script>
     </body>
 </html>
 
