@@ -7,6 +7,7 @@ package com.ulatina.davidTests;
 import com.ulatina.controllers.Controller;
 import com.ulatina.entity.Question;
 import com.ulatina.pagesController.newFormController;
+import com.ulatina.services.AnswerService;
 
 
 /**
@@ -19,11 +20,11 @@ public class tester {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       newFormController nfc = new newFormController();
-       Question q = new Question();
-       q.setId(48);
-       nfc.deleteQuestion(q);
-        System.out.println("HF");
+       AnswerService as = new AnswerService();
+       
+       
+       
+        System.out.println(as.getNumOfAnswerees(335));
     }
     
 }
