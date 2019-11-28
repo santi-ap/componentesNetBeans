@@ -18,11 +18,11 @@ and open the template in the editor.
                 $(".btn1").click(function () {
                     if ($(".answersList").is(":visible")) {
                         $(".answersList").hide();
-                        $(".test").show();
+                        $(".answerByPeson").show();
 
                     } else {
                         $(".answersList").show();
-                        $(".test").hide();
+                        $(".answerByPeson").hide();
                     }
                 });
 
@@ -32,8 +32,8 @@ and open the template in the editor.
 
         <script>
             function starter() {
-                $(".test").hide();
-                $("#{viewFormAnswerController.init()}")
+                $(".answerByPeson").hide();
+                $("#{viewFormAnswerController.init()}");
             }
         </script>
 
@@ -41,9 +41,9 @@ and open the template in the editor.
 
     <body onload="starter()">
         <h:form>
-            <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
+
             <p:outputLabel value="#{viewFormAnswerController.form.title}"/>
-            <!--TESTING TESTING TESTING BOIIIIIIIIIIIII-->
+
 
             <p:inputSwitch class="btn1" /> 
             <div></div> 
@@ -58,13 +58,24 @@ and open the template in the editor.
 
             </p:dataList>
 
-            <p:panel class="test" id="testing">
-
-                alexisforchiney
+            <p:panel class="answerByPeson"  >
+                <!--DATALIST THAT SHOWS EACH PERSON'S FORM ANSWERS-->
+                <p:dataList var="answeree" value="#{viewFormAnswerController.answereeId}" emptyMessage="Questions" type="definition" style="width:100%;">
+                    <p:panel>
+                    Person # <p:outputLabel value="#{answeree}"/>
+                    <!--DATALIST THAT SHOWS EACH QUESTION AND ITS ANSWER-->
+                    <p:dataList var="question" value="#{viewFormAnswerController.form.questionList}">
+                        <p:outputLabel value="#{question.question}"/>
+                        <br></br>
+                        <p:outputLabel value="#{viewFormAnswerController.getAnswerById(question, answeree)}"/>
+                        
+                    </p:dataList>
+                    </p:panel>
+                </p:dataList>
 
 
 
             </p:panel>
-            </h:form>
-                </body>
-                </html>
+        </h:form>
+    </body>
+</html>
