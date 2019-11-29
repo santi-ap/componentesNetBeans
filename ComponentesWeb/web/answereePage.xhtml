@@ -23,22 +23,27 @@
                     <p:dataList  id="MultipleChoice" var="MultQuestion" value="#{AnswereeController.multQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
 
                         <p:panel header="#{MultQuestion.getqQuestion().question}">
-                            <p:selectManyCheckbox id="selectManyCheckbox" value="#{MultQuestion.questAnswerList}" columns="1" layout="responsive">
-                                <f:selectItems value="#{AnswereeController.returnChoiceList(MultQuestion.getqQuestion())}" var="choice" itemLabel="#{choice.choice}" itemValue="#{choice.choice}" />
+                            <p:selectManyCheckbox id="selectManyCheckbox" value="#{MultQuestion.questOptionIdList}" columns="1" layout="responsive">
+                                <f:selectItems value="#{AnswereeController.returnChoiceList(MultQuestion.getqQuestion())}" var="choice" itemLabel="#{choice.choice}" itemValue="#{choice.id}" />
                             </p:selectManyCheckbox>
                         </p:panel>
                     </p:dataList>
                     <!--////////////////////////////////////////// MULT CHOICE QUESTION AREA END /////////////////////////////////////////////////////////////-->
-
+                    
                     <!--////////////////////////////////////////// SINGLE CHOICE QUESTION AREA /////////////////////////////////////////////////////////////-->
                     <p:dataList id="SingleChoice" var="SingleQuestion"  value="#{AnswereeController.singleQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
+                        
                         <p:panel header="#{SingleQuestion.getqQuestion().question}">
-                            <p:selectOneRadio id="selectOneRadio" value="#{SingleQuestion.questAnswer}" layout="responsive" columns="1">
-                                <f:selectItems value="#{AnswereeController.returnChoiceList(SingleQuestion.getqQuestion())}" var="choiceSingle" itemLabel="#{choiceSingle.choice}" itemValue="#{choiceSingle.choice}" />
+                            
+                            <p:selectOneRadio id="selectOneRadio" value="#{SingleQuestion.questOptionId}" layout="responsive" columns="1">
+                                <f:selectItems value="#{AnswereeController.returnChoiceList(SingleQuestion.getqQuestion())}" var="choiceSingle" itemLabel="#{choiceSingle.choice}" itemValue="#{choiceSingle.id}" />
                             </p:selectOneRadio>
+                            
                         </p:panel>
+                        
                     </p:dataList>
                     <!--////////////////////////////////////////// SINGLE CHOICE QUESTION AREA END /////////////////////////////////////////////////////////////-->
+                    
                     <!--////////////////////////////////////////// TEXT QUESTION AREA /////////////////////////////////////////////////////////////-->
                     <p:dataList id="TextAnswer" var="TextQuestion"  value="#{AnswereeController.textQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
                         <p:panel header="#{TextQuestion.getqQuestion().question}">
@@ -94,7 +99,7 @@
                             </div>
                         </div>
                     </p:confirmDialog> 
-                    <p:dialog header="Submission has been cancelled" widgetVar="formSaved" modal="true" height="100" draggable="false" resizable="false" closable="false" closeOnEscape="false">
+                    <p:dialog header="Submission successful" widgetVar="formSaved" modal="true" height="100" draggable="false" resizable="false" closable="false" closeOnEscape="false">
                         <h:outputText value="You have successfully submitted your answers. You may close this tab." />
                     </p:dialog>  
                     <!--////////////////////////////////////////// SUBMIT BUTTON END /////////////////////////////////////////////////////////////-->

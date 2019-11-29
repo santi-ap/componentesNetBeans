@@ -6,6 +6,7 @@
 package com.ulatina.pagesController;
 
 import com.ulatina.controllers.AnswerController;
+import com.ulatina.controllers.ChoiceController;
 import com.ulatina.controllers.FormController;
 import com.ulatina.controllers.QuestionController;
 import com.ulatina.entity.Answer;
@@ -39,6 +40,7 @@ public class AnswereeController implements Serializable {
     public QuestionController questionController = new QuestionController();
     public AnswerService answerService = new AnswerService();
     public AnswerController answerController = new AnswerController();
+    public ChoiceController choiceController = new ChoiceController();
 
     private String formId;//used to save the form ID taken from the URL
     private Form form;//the current form that's beeing answered. Found using the formID variable above
@@ -180,7 +182,6 @@ public class AnswereeController implements Serializable {
     /**
      * first method to be executed in this class
      */
-    @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> paramMap = context.getExternalContext().getRequestParameterMap();//gets the info from the URL
@@ -278,17 +279,19 @@ public class AnswereeController implements Serializable {
      */
     public void submitSingleAnswer() {
         int answerId = this.answerService.SelectMaxId();//looks for the MAX id for the answers and sets it to the variable
-
+        Choice choice;
         for (Quest quest : this.getSingleQuestionSet()) {//for every quest in the list
-            if (quest.getQuestAnswer() == null) {//if the answer isn't null or empty
+            if (quest.getQuestOptionId() == null) {//if the option isn't null or empty
                 System.out.println("Not saving empty single answer");
             } else {//if it's not null or empty
+                choice = (Choice)this.choiceController.selectRegister(quest.getQuestOptionId());//selects the choice in question from the DB
                 answerId++;//adds 1 to the answer ID
                 Answer newAnswer = new Answer();//creates a new Answer
                 newAnswer.setId(answerId);//sets the ID to the new Anser
                 newAnswer.setAnonymous_id(this.getAnonymousId());//sets the anonymous ID to the new Answer
-                newAnswer.setAnswer(quest.getQuestAnswer());//sets the actual answer(type String) to the new new Answer
+                newAnswer.setAnswer(choice.getChoice());//sets the actual answer(type String) to the new new Answer
                 newAnswer.setQuestion(quest.getqQuestion());//links the question to the new Answer
+                newAnswer.setChoice(choice);//links the choice to the answer
                 quest.getqQuestion().getAnswerList().add(newAnswer);//adds the new Answer to the list of Answers of the Question
                 System.out.println("Single Question: " + quest.getqQuestion().getQuestion() + " Single Answer: " + newAnswer.getAnswer());//print for testing
                 this.answerController.insert(newAnswer);//saves the new Answer into the DB
@@ -303,18 +306,20 @@ public class AnswereeController implements Serializable {
     public void submitMultipleAnswer() {
         int answerId = this.answerService.SelectMaxId();//looks for the MAX id for the answers and sets it to the variable
         Answer newAnswer = new Answer();//creates a new Answer
-
+        Choice choice;
         for (Quest quest : this.getMultQuestionSet()) {//for every quest in the list
-            if (quest.getQuestAnswerList().isEmpty() || quest.getQuestAnswerList() == null) {//if the answer list isn't null or empty
+            if (quest.getQuestOptionIdList().isEmpty() || quest.getQuestOptionIdList() == null) {//if the option list isn't null or empty
                 System.out.println("Not saving empty single answer");
             } else {//if it's not null or empty
-                for (String questAnswer : quest.getQuestAnswerList()) {//goes through every text answer of the mult choice question
+                for (String optionId : quest.getQuestOptionIdList()) {//goes through every text answer of the mult choice question
+                    choice = (Choice)this.choiceController.selectRegister(optionId);//selects the choice in question from the DB
                     answerId++;//adds 1 to the answer ID
                     newAnswer = new Answer();//creates a new Answer
                     newAnswer.setId(answerId);//sets the ID to the new Anser
                     newAnswer.setAnonymous_id(this.getAnonymousId());//sets the anonymous ID to the new Answer
-                    newAnswer.setAnswer(questAnswer);//sets the actual answer(type String) to the new new Answer
+                    newAnswer.setAnswer(choice.getChoice());//sets the actual answer(type String) to the new new Answer
                     newAnswer.setQuestion(quest.getqQuestion());//links the question to the new Answer
+                    newAnswer.setChoice(choice);//links the choice to the answer
                     quest.getqQuestion().getAnswerList().add(newAnswer);//adds the new Answer to the list of Answers of the Question
                     System.out.println("Multiple Question: " + quest.getqQuestion().getQuestion() + " Multiple Answer: " + newAnswer.getAnswer());//print for testing
                     this.answerController.insert(newAnswer);//saves the new Answer into the DB

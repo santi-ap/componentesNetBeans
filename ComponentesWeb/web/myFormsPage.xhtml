@@ -8,14 +8,35 @@
     <h:head>
         <title>My Forms</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <script>
+            function starter() {
+                $(".clipboardHide").hide();
+                $("#{myFormsController.showMessageOnLoad()}");
+            }
+            
+            function showDialog(){
+                 $(".clipboardHide").show();
+            }
+            
+            //function to copy to clipboard
+            function myFunction() {
+               
+                var copyText = document.getElementById("myInput");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+                alert("Copied the text: " + copyText.value);
+            }
+        </script>
     </h:head>
 
 
-    <h:body onload="#{myFormsController.showMessageOnLoad()}" style="text-align: center; background-color: background">
+    <h:body onload="starter()" style="text-align: center; background-color: background">
 
         <p:growl id="messages" showDetail="true"/>
 
-        <h:form>
+        <h:form id="formSanti">
 
             <!--////////////////////////////////////////// Button New And My Form /////////////////////////////////////////////////////////////-->
 
@@ -50,7 +71,7 @@
                 <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:70%;height:80vh;padding:5px 5px 5px 5px; margin-left: 15%;">
                     <!--////////////////////////////////////////// Button Menu /////////////////////////////////////////////////////////////-->
                     
-                    <p:dataList var="myForm"  value="#{VerificationController.users.formList}" emptyMessage="Create a new Form to see it here" type="definition" style="width:100%;">
+                    <p:dataList id="dataList" var="myForm"  value="#{VerificationController.users.formList}" emptyMessage="Create a new Form to see it here" type="definition" style="width:100%;">
                         <p:panel id="newQuestionPanel" header="#{myForm.title}" closeSpeed="500" widgetVar="panel" style="height: fit-content; font-size: 25px; border: solid #23a38f">
 
 
@@ -64,7 +85,7 @@
                                 </div>
 
                                 <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="Get Link" action="#{myFormsController.generateViewFormURL(myForm.id)}" update="@form" onclick="PF('wdialog').show();" />
+                                    <p:commandButton value="Get Link" action="#{myFormsController.generateViewFormURL(myForm.id)}" update="formSanti" onclick="setTimeout(showDialog, 500)" />
 
 
                                 </div>
@@ -77,8 +98,8 @@
                     <!--////////////////////////////////////////// Scroll Panel END /////////////////////////////////////////////////////////////-->
                 </p:scrollPanel>
 
-                <p:dialog  id="dialog" widgetVar="wdialog" header="FormURL" modal="true" appendTo="@(newQuestionPanel)" 
-                           responsive="true" resizable="false" style="width: 800px" draggable="false" width="800px" visible="true">
+                <p:dialog  id="dialog" class="clipboardHide" widgetVar="wdialog" header="FormURL" modal="true" appendTo="@(newQuestionPanel)" 
+                           responsive="true" resizable="false" style="width: 800px" draggable="false" width="800px" >
 
                     <input type="text" value="#{myFormsController.getViewFormLink()}" id="myInput" style="width: 90%"/>
 
@@ -102,17 +123,25 @@
                 -ms-transform: translateY(-50%);
                 transform: translateY(-50%);
             }
+            
+            .clipboardHide{
+                 margin: 0;
+                position: inherit;
+                top: 35%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }
         </style>
 
         <script>
             //function to copy to clipboard
-            function myFunction() {
-                var copyText = document.getElementById("myInput");
-                copyText.select();
-                copyText.setSelectionRange(0, 99999);
-                document.execCommand("copy");
-                alert("Copied the text: " + copyText.value);
-            }
+//            function myFunction() {
+//                var copyText = document.getElementById("myInput");
+//                copyText.select();
+//                copyText.setSelectionRange(0, 99999);
+//                document.execCommand("copy");
+//                alert("Copied the text: " + copyText.value);
+//            }
         </script>
     </h:body> 
 
