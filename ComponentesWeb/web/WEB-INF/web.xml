@@ -12,7 +12,7 @@
     </context-param>
     
     <listener>
-        <listener-class>com.ulatina.services.ServletListener</listener-class>
+        <listener-class>com.ulatina.santiTests.EntityListener</listener-class>
     </listener>
     
     <servlet>
