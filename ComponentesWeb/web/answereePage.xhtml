@@ -17,7 +17,7 @@
 
             <div class="ui-g" style=" display: flex; align-items: center; justify-content: center;">
                 <!--////////////////////////////////////////// ANSWER QUESTION SCROLL_PANEL AREA /////////////////////////////////////////////////////////////-->
-                <p:scrollPanel id="QuestionScrollPanel" mode="native" style="width:90%;height:85vh;padding:5px 5px 5px 5px;">
+                <p:scrollPanel id="QuestionScrollPanel" mode="native" style="width:90%;height:80vh;padding:5px 5px 5px 5px;">
                     <!--////////////////////////////////////////// MULT CHOICE QUESTION AREA /////////////////////////////////////////////////////////////-->
 
                     <p:dataList  id="MultipleChoice" var="MultQuestion" value="#{AnswereeController.multQuestionSet}" emptyMessage="No questions" type="none" style="width:100%;">
@@ -66,7 +66,7 @@
 
             <!--////////////////////////////////////////// SUBMIT AND CANCEL BUTTON AREA /////////////////////////////////////////////////////////////-->
             <div class="ui-g" >
-                <div class="ui-g-12 md-6 ui-lg-6" style=" display: flex; align-items: center; justify-content: center;">
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style=" display: flex; align-items: center; justify-content: center;">
                     <!--////////////////////////////////////////// CANCEL BUTTON  /////////////////////////////////////////////////////////////-->
                     <p:commandButton value="Cancel"  style=" font-size: xx-large;" action="#{AnswereeController.cancelButton()}" onclick="PF('dlg2').show();" update="answerForm">
                         <p:confirm header="Confirmation" message="Are you sure you want to cancel?" icon="pi pi-exclamation-triangle" />
@@ -83,7 +83,7 @@
                     <!--////////////////////////////////////////// CANCEL BUTTON END  /////////////////////////////////////////////////////////////-->
                 </div>
 
-                <div class="ui-g-12 md-6 ui-lg-6" style=" display: flex; align-items: center; justify-content: center;">
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style=" display: flex; align-items: center; justify-content: center;">
                     <!--////////////////////////////////////////// SUBMIT BUTTON  /////////////////////////////////////////////////////////////-->
                     <p:commandButton   value="Submit" style=" font-size: xx-large;" action="#{AnswereeController.submitAllAnswers()}" onclick="PF('formSaved').show();">
                         <p:confirm header="Confirmation" message="Are you sure you want to submit your answers? You will not be able to edit your answers once submitted." icon="pi pi-exclamation-triangle" />

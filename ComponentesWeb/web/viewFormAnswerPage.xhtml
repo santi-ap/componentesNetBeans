@@ -25,12 +25,8 @@ and open the template in the editor.
                         $(".answerByPeson").hide();
                     }
                 });
-
-
             });
-        </script>
-
-        <script>
+            
             function starter() {
                 $(".answerByPeson").hide();
                 $("#{viewFormAnswerController.init()}");
@@ -39,43 +35,57 @@ and open the template in the editor.
 
     </h:head>
 
-    <body onload="starter()">
+    <body onload="starter()" style="background-color: background">
         <h:form>
+            <div class="ui-g"  >
+                <!--////////////////////////////////////////// BACK BUTTON AREA /////////////////////////////////////////////////////////////-->
 
-            <p:outputLabel value="#{viewFormAnswerController.form.title}"/>
+                <div class="ui-g-12 ui-md-4 ui-lg-3" style=" display: flex; align-items: center; justify-content: center;">
+                    <p:commandButton value="Back" action="#{newFormController.redirect('myFormsPage')}" style=" font-size: xx-large;" />
 
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-6" style=" display: flex; align-items: center; justify-content: center;">
+                    <p:outputLabel value="#{viewFormAnswerController.form.title}" style="font-size: 40px; font-weight: bolder; color: white "/>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-lg-3" style="display: flex; align-items: center; justify-content: center;">
+                    <p:inputSwitch class="btn1" /> 
+                </div> 
+                <div class=" ui-g ui-g-12 ui-md-12 ui-lg-12" style="display: flex; align-items: center; justify-content: center;">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" style="display: flex; align-items: center; justify-content: center;">
+                        <p:outputLabel value="#{answerService.getNumOfAnswerees(viewFormAnswerController.formId)}  people have answered this form" 
+                                       style="font-size: 20px; font-weight: bolder; color: white " />
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" >
+                        <p:dataList var="question" id="tabla" class="answersList" value="#{viewFormAnswerController.form.questionList}" emptyMessage="Questions" 
+                                    type="definition" style="width:100%; padding-top: 0px">
+                            <p:panel>
+                                <p:outputLabel  value="#{question.question}" style="font-weight: bold"/>
 
-            <p:inputSwitch class="btn1" /> 
-            <div></div> 
-            <p:outputLabel value="#{answerService.getNumOfAnswerees(viewFormAnswerController.formId)}  people have answered this form" />
+                                <p:dataList var="choice"  value="#{viewFormAnswerController.generateResults(question)}"  type="definition" style="width:100%;">
+                                    <p:outputLabel  value="#{choice}" />
+                                </p:dataList>
+                            </p:panel>
+                        </p:dataList>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12" >
 
-            <p:dataList var="question" id="tabla" class="answersList" value="#{viewFormAnswerController.form.questionList}" emptyMessage="Questions" type="definition" style="width:100%;">
-                <p:outputLabel  value="#{question.question}" />
+                        <!--DATALIST THAT SHOWS EACH PERSON'S FORM ANSWERS-->
+                        <p:dataList class="answerByPeson" var="answeree" value="#{viewFormAnswerController.answereeId}" emptyMessage="Questions" type="definition" style="width:100%;">
+                            <p:panel>
+                                <p:outputLabel style="font-weight: bold"> Person # <p:outputLabel value="#{answeree}" /> </p:outputLabel>
+                                <!--DATALIST THAT SHOWS EACH QUESTION AND ITS ANSWER-->
+                                <p:dataList var="question" value="#{viewFormAnswerController.form.questionList}">
+                                    <p:outputLabel value="#{question.question}" style="font-weight: bold"/>
+                                    <br></br>
+                                    <p:outputLabel value="#{viewFormAnswerController.getAnswerById(question, answeree)}"/>
 
-                <p:dataList var="choice"  value="#{viewFormAnswerController.generateResults(question)}"  type="definition" style="width:100%;">
-                    <p:outputLabel  value="#{choice}" />
-                </p:dataList>
+                                </p:dataList>
+                            </p:panel>
+                        </p:dataList>
 
-            </p:dataList>
-
-            <p:panel class="answerByPeson"  >
-                <!--DATALIST THAT SHOWS EACH PERSON'S FORM ANSWERS-->
-                <p:dataList var="answeree" value="#{viewFormAnswerController.answereeId}" emptyMessage="Questions" type="definition" style="width:100%;">
-                    <p:panel>
-                    Person # <p:outputLabel value="#{answeree}"/>
-                    <!--DATALIST THAT SHOWS EACH QUESTION AND ITS ANSWER-->
-                    <p:dataList var="question" value="#{viewFormAnswerController.form.questionList}">
-                        <p:outputLabel value="#{question.question}"/>
-                        <br></br>
-                        <p:outputLabel value="#{viewFormAnswerController.getAnswerById(question, answeree)}"/>
-                        
-                    </p:dataList>
-                    </p:panel>
-                </p:dataList>
-
-
-
-            </p:panel>
+                    </div>
+                </div>
+            </div>
         </h:form>
     </body>
 </html>
