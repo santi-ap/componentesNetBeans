@@ -45,7 +45,7 @@ and open the template in the editor.
             <p:outputLabel value="#{viewFormAnswerController.form.title}"/>
 
 
-            <p:inputSwitch class="btn1" /> 
+            <p:inputSwitch class="btn1" onLabel="♂♀" offLabel="%%"/> 
             <div></div> 
             <p:outputLabel value="#{answerService.getNumOfAnswerees(viewFormAnswerController.formId)}  people have answered this form" />
 
@@ -72,9 +72,6 @@ and open the template in the editor.
                     </p:dataList>
                     </p:panel>
                 </p:dataList>
-
-
-
             </p:panel>
         </h:form>
     </body>
