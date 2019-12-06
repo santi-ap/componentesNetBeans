@@ -175,18 +175,48 @@ public class ViewFormAnswerController {
                     return " - " + a.getAnswer();
                 } else { // else we gotta look for the choices
                     //so for each choice of this question
-                    for (Choice c : q.getChoiceList())
-                    {
+                    for (Choice c : q.getChoiceList()) {
                         //check if we have it on the answer
-                        if (a.getChoice() == c)
-                        {
+                        if (a.getChoice() == c) {
                             //if so, return it
-                            returnString = returnString +  "\n- " + c.getChoice();
-                        } 
+                            returnString = returnString + "\n- " + c.getChoice();
+                        }
                     }
-                    
+
                 }
-            } 
+            }
+        }
+        return returnString;
+    }
+
+    public String getAnswerByIdTwo(Question q, int answeree) {
+        //return this.AnsService.getAnswerByAnsweree(answeree, formId, q.getId());
+        //lets get some answers from a particular question q
+        String returnString = "";
+        for (Answer a : q.getAnswerList()) {
+            //if the id of the answeree matches... 
+            if (a.getAnonymous_id() == answeree) {
+                //...check if it's a date or text question, if so...
+                if (!(a.getAnswer() == null || a.getAnswer().isEmpty())) {
+                    //return it
+
+                    return " " + a.getAnswer();
+                } else { // else we gotta look for the choices
+                    //so for each choice of this question
+                    boolean isFirst = true;
+                    for (Choice c : q.getChoiceList()) {
+                        //check if we have it on the answer
+                        if (a.getChoice() == c && isFirst == true) {
+                            //if so, return it
+                            returnString = returnString + c.getChoice();
+
+                            isFirst = false;
+                        } else if (a.getChoice() == c && isFirst == false) {
+                            returnString = returnString + "\n" + c.getChoice();
+                        }
+                    }
+                }
+            }
         }
         return returnString;
     }
