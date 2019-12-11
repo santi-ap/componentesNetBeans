@@ -7,8 +7,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"> 
     <h:head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
         <title>TODO supply a title</title>
@@ -56,34 +56,52 @@ and open the template in the editor.
                                        style="font-size: 20px; font-weight: bolder; color: white " />
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12" >
-                        <p:dataList var="question" id="tabla" class="answersList" value="#{viewFormAnswerController.form.questionList}" emptyMessage="Questions" 
-                                    type="definition" style="width:100%; padding-top: 0px">
-                            <p:panel>
-                                <p:outputLabel  value="#{question.question}" style="font-weight: bold"/>
+                        <div class="answersList" >
+                            <p:dataList var="question" id="tabla" value="#{viewFormAnswerController.form.questionList}" type="definition" emptyMessage="Questions" 
+                                        style="width:100%; padding-top: 0px">
+                                <p:panel>
+                                    <p:outputLabel  value="#{question.question}" style="font-weight: bold"/>
 
-                                <p:dataList var="choice"  value="#{viewFormAnswerController.generateResults(question)}"  type="definition" style="width:100%;">
-                                    <p:outputLabel  value="#{choice}" />
-                                </p:dataList>
-                            </p:panel>
-                        </p:dataList>
+                                    <p:dataList var="choice"  value="#{viewFormAnswerController.generateResults(question)}"  type="definition" style="width:100%;">
+                                        <p:outputLabel  value="#{choice}" />
+                                    </p:dataList>
+                                </p:panel>
+                            </p:dataList>
+
+                            <p:dataTable rendered="false" id ="aaa" var="question"  class="answersList" value="#{viewFormAnswerController.form.questionList}" 
+                                         emptyMessage="Questions"  style="width:100%;">
+                                <p:column>
+                                    <p:outputLabel  value="#{question.question}" />
+                                </p:column>
+                                <p:outputLabel  value="#{choice}" />
+                                <p:column>
+                                    <h:outputText value="#{viewFormAnswerController.generateResults(question)}" />
+                                </p:column>
+                            </p:dataTable>
+                            
+                            <p:commandButton value="Download results  " ajax="false">
+                                <p:dataExporter type="pdf" target ="aaa" fileName="question list"/>
+                            </p:commandButton>
+                        </div>
                     </div>
-                    <div class="ui-g-12 ui-md-12 ui-lg-12" >
+                    <div  class="ui-g-12 ui-md-12 ui-lg-12" >
+                        <div class="answerByPeson">
+                            <p:dataTable rendered="true" id="resultsTable"  var="answeree" value="#{viewFormAnswerController.answereeId}" emptyMessage="Questions"  style="width:100%;">
+                                <p:column>
+                                    Person # <p:outputLabel value="#{answeree}"/>
+                                </p:column>
+                                <p:columns var="question" value="#{viewFormAnswerController.form.questionList}">
+                                    <f:facet name="header">
+                                        <p:outputLabel value="#{question.question}"/>
+                                    </f:facet>
+                                    <p:outputLabel value="#{viewFormAnswerController.getAnswerByIdTwo(question, answeree)}"/>
+                                </p:columns>   
+                            </p:dataTable>
 
-
-                        <!--DATALIST THAT SHOWS EACH PERSON'S FORM ANSWERS-->
-                        <p:dataList class="answerByPeson" var="answeree" value="#{viewFormAnswerController.answereeId}" emptyMessage="Questions" type="definition" style="width:100%;">
-                            <p:panel>
-                                <p:outputLabel style="font-weight: bold"> Person # <p:outputLabel value="#{answeree}" /> </p:outputLabel>
-                                <!--DATALIST THAT SHOWS EACH QUESTION AND ITS ANSWER-->
-                                <p:dataList var="question" value="#{viewFormAnswerController.form.questionList}">
-                                    <p:outputLabel value="#{question.question}" style="font-weight: bold"/>
-                                    <br></br>
-                                    <p:outputLabel value="#{viewFormAnswerController.getAnswerById(question, answeree)}"/>
-
-                                </p:dataList>
-                            </p:panel>
-                        </p:dataList>
-
+                            <p:commandButton value="Download results " ajax="false">
+                                <p:dataExporter type="pdf" target="resultsTable" fileName="answers" />
+                            </p:commandButton>
+                        </div>
                     </div>
                 </div>
             </div>
