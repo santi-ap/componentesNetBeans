@@ -8,20 +8,44 @@
     <h:head>
         <title>My Forms</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <script>
+            function starter() {
+                $(".clipboardHide").hide();
+                $("#{myFormsController.showMessageOnLoad()}");
+            }
+            
+            function showDialog(){
+                 $(".clipboardHide").show();
+            }
+            
+            //function to copy to clipboard
+            function myFunction() {
+               
+                var copyText = document.getElementById("myInput");
+                copyText.select();
+                copyText.setSelectionRange(0, 99999);
+                document.execCommand("copy");
+                alert("Copied the text: " + copyText.value);
+            }
+        </script>
     </h:head>
 
 
-    <h:body onload="#{myFormsController.showMessageOnLoad()}" style="text-align: center; background-color: background">
+    <h:body onload="starter()" style="text-align: center; background-color: background">
 
         <p:growl id="messages" showDetail="true"/>
 
-        <h:form>
+        <h:form id="formSanti">
 
             <!--////////////////////////////////////////// Button New And My Form /////////////////////////////////////////////////////////////-->
 
             <div class="ui-g" >
-                <div class="ui-g-12 ui-md-10 ui-lg-10" style=" font-size: 25px ">
-                    <p:tabMenu activeIndex="#{param.i}"  style="width: fit-content; position: relative;  margin-left: 50%;   " >
+                <div class="ui-sm-12 ui-g-2 ui-md-2 ui-lg-2 ui-g-nopad" style=" height:0vh">
+                </div>
+                
+                <div class="ui-sm-12 ui-g-8 ui-md-8 ui-lg-8" style=" font-size: 25px; display: flex; align-items: center; justify-content: center; ">
+                    <p:tabMenu activeIndex="#{param.i}" >
 
                         <p:menuitem value="My Form" outcome="myFormsPage" >
                             <f:param name="i" value="0" />
@@ -33,38 +57,38 @@
                     </p:tabMenu>
                 </div>
                 <!--////////////////////////////////////////// Button New And My Form END /////////////////////////////////////////////////////////////-->
-
                 <!--////////////////////////////////////////// Name AND SIGN OUT /////////////////////////////////////////////////////////////-->
-                <div class="ui-g-12 ui-md-2 ui-lg-2" >
+                <div class="ui-sm-12 ui-g-2 ui-md-2 ui-lg-2" >
                     <p:outputLabel  value="#{VerificationController.users.name}" style=" font-size: 30px; font-weight: bold; color: azure" />
                     <br></br>
                     <p:commandButton value="Sign Out" action="#{VerificationController.logOut()}" style=" font-size: 15px; "/>
                 </div>
                 <!--////////////////////////////////////////// Name AND SIGN OUT END /////////////////////////////////////////////////////////////-->
+                
             </div>
 
 
 
-            <div style=" margin-top: 30px">
+            <div style=" margin-top: 30px; display: flex; align-items: center; justify-content: center;">
                 <!--////////////////////////////////////////// Scroll Panel  /////////////////////////////////////////////////////////////-->
-                <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:70%;height:80vh;padding:5px 5px 5px 5px; margin-left: 15%;">
+                <p:scrollPanel id="newQuestionScrollPanel" mode="native" style="width:70%;height:80vh;padding:5px 5px 5px 5px; ">
                     <!--////////////////////////////////////////// Button Menu /////////////////////////////////////////////////////////////-->
                     
-                    <p:dataList var="myForm"  value="#{VerificationController.users.formList}" emptyMessage="Create a new Form to see it here" type="definition" style="width:100%;">
+                    <p:dataList id="dataList" var="myForm"  value="#{VerificationController.users.formList}" emptyMessage="Create a new Form to see it here" type="definition" style="width:100%;">
                         <p:panel id="newQuestionPanel" header="#{myForm.title}" closeSpeed="500" widgetVar="panel" style="height: fit-content; font-size: 25px; border: solid #23a38f">
 
 
                             <div class="ui-g" style=" font-size: 20px">
-                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
+                                <div class="ui-g-12 ui-md-4 ui-lg-4" >
                                     <p:commandButton value="View Form" action="#{myFormsController.redirectToSampleForm(myForm)}"/>
                                 </div>
 
-                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
+                                <div class="ui-g-12 ui-md-4 ui-lg-4" >
                                     <p:commandButton value="View Answer"  action="#{myFormsController.redirectToFormAnswer(myForm)}"/>
                                 </div>
 
-                                <div class="ui-g-4 ui-md-4 ui-lg-4" >
-                                    <p:commandButton value="Get Link" action="#{myFormsController.generateViewFormURL(myForm.id)}" update="@form" onclick="PF('wdialog').show();" />
+                                <div class="ui-g-12 ui-md-4 ui-lg-4" >
+                                    <p:commandButton value="Get Link" action="#{myFormsController.generateViewFormURL(myForm.id)}" update="formSanti" onclick="setTimeout(showDialog, 500)" />
 
 
                                 </div>
@@ -77,8 +101,8 @@
                     <!--////////////////////////////////////////// Scroll Panel END /////////////////////////////////////////////////////////////-->
                 </p:scrollPanel>
 
-                <p:dialog  id="dialog" widgetVar="wdialog" header="FormURL" modal="true" appendTo="@(newQuestionPanel)" 
-                           responsive="true" resizable="false" style="width: 800px" draggable="false" width="800px" visible="true">
+                <p:dialog  id="dialog" class="clipboardHide" widgetVar="wdialog" header="FormURL" modal="true" appendTo="@(newQuestionPanel)" 
+                           responsive="true" resizable="false" style="width: 800px" draggable="false" width="800px" >
 
                     <input type="text" value="#{myFormsController.getViewFormLink()}" id="myInput" style="width: 90%"/>
 
@@ -102,17 +126,25 @@
                 -ms-transform: translateY(-50%);
                 transform: translateY(-50%);
             }
+            
+            .clipboardHide{
+                 margin: 0;
+                position: inherit;
+                top: 35%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }
         </style>
 
         <script>
             //function to copy to clipboard
-            function myFunction() {
-                var copyText = document.getElementById("myInput");
-                copyText.select();
-                copyText.setSelectionRange(0, 99999);
-                document.execCommand("copy");
-                alert("Copied the text: " + copyText.value);
-            }
+//            function myFunction() {
+//                var copyText = document.getElementById("myInput");
+//                copyText.select();
+//                copyText.setSelectionRange(0, 99999);
+//                document.execCommand("copy");
+//                alert("Copied the text: " + copyText.value);
+//            }
         </script>
     </h:body> 
 

@@ -254,6 +254,7 @@ public class newFormController {
      */
     public void saveButton() {
         this.getMyFormsController().setMessageToShow(1);//sets a certain variable from the myFormsController class to an int to show the success message on that page
+        this.getVerificationController().getUsers().getFormList().add(newForm);
         //this "for" gets every question and then looks into the question choices to update the titles on the db 
         this.formController.update(this.getNewForm());
         for (Question q : newForm.getQuestionList()) {

@@ -10,7 +10,10 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>casablanca</param-value>
     </context-param>
-    <!-- /////////// Esto es para modificar los themes ///////// --> 
+    
+    <listener>
+        <listener-class>com.ulatina.santiTests.EntityListener</listener-class>
+    </listener>
     
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>

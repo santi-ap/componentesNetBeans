@@ -7,7 +7,7 @@
     <h:head>
         <title>Welcome To the System</title>
     </h:head>
-    <h:body style="text-align:center; background-color: background" >
+    <h:body style="text-align:center; background-color: background; display: flex; align-items: center; justify-content: center;" >
         <link href="commandButtonTest.css" rel="stylesheet" />
         <style>
 
@@ -17,27 +17,43 @@
                 top: 35%;
                 -ms-transform: translateY(-50%);
                 transform: translateY(-50%);
-                margin-left: 35%
+            }
+            .ui-panel .ui-panel-content {
+                border: 0;
+                background: 0;
+                padding-left:  1%;
+                padding-right: 1%;
+            }
+
+            table {
+                display: table;
+                border-collapse: separate;
+                border-spacing: 0px;
+                border-color: grey;
             }
         </style>
 
         <p:growl id="mensajes" showDetail="true" life="5000" />
-        <h:form style="background-color: red" id="form">
-            <div class="vertical-center">
-                <p:panel  id= "panel" header="Login" style="width:400px; ">
-                    <h:panelGrid columns="2" cellpadding="6">
-                        <h:outputLabel for="username" value="Email:" />
-                        <p:inputText value="#{VerificationController.email}" id="username" required="true" label="username" requiredMessage="The User is Required" />
-                        <h:outputLabel for="password" value="Password:" />
-                        <p:password value="#{VerificationController.password}" id="password" required="true"  label="password" requiredMessage="The password is Required" />
+        <h:form  id="form">
+            <div  >
+                <p:panel  id= "panel" header="Login" style="width:400px; margin-top: 80%; ">
+                    <h:panelGrid columns="2" cellpadding="10" >
+                        <h:outputLabel  for="username" value="Email:" />
+                        <p:inputText  value="#{VerificationController.email}" id="username" required="true" label="username" requiredMessage="The User is Required" />
+                        <h:outputLabel  for="password" value="Password:" />
+                        <p:password  value="#{VerificationController.password}" id="password" required="true"  label="password" requiredMessage="The password is Required" />
                         <f:facet name="footer">
-                            <p:commandButton id="LoginId" value="Login" class="btn btn-danger btn-fill " action="#{VerificationController.login()}" />
-                            
-                            <p:commandButton  value="Cancel" update="panel" process="@this" action="#{VerificationController.reset()}" style="margin-right: 20px; "/>
-                            
-                          
+                            <div class="ui-g" >
+                                
+                                <div class="ui-g-6" style=" padding-left: 10%">
+                                    <p:commandButton id="LoginId" value="Login" class="btn btn-danger btn-fill " action="#{VerificationController.login()}" />
+                                </div>
+                                <div class="ui-g-6" style=" padding-right: 10%">
+                                    <p:commandButton  value="Cancel" update="panel" process="@this" action="#{VerificationController.reset()}" />
+                                </div>
+                            </div>
                             <br></br>
-                          Don't have an account yet?
+                            Don't have an account yet?
                             <p:link outcome="registerPage.xhtml" value="register">
                                 <f:param name="registerPage.xhtml" value="Register" />
                             </p:link>
@@ -68,9 +84,9 @@
     <style>
 
 
-/*        .ui-button .ui-button-text {
-            font-size: 30px;
-        }*/
+        /*        .ui-button .ui-button-text {
+                    font-size: 30px;
+                }*/
 
         .ui-button.regCommandButton { 
 
@@ -89,7 +105,7 @@
         .testingSomeShit{
             font-size:20px ;  
         }
-        
+
         .ui-widget {
             font-size: 20px;
         }
